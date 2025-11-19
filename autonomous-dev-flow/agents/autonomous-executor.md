@@ -37,6 +37,33 @@ Use this agent when:
 
 ## How It Works
 
+### CRITICAL: Subagent-Per-Phase Model
+
+**This agent MUST dispatch each phase to a separate subagent.**
+
+**Why:**
+
+- Context isolation: Each phase starts fresh
+- Clean execution: No context pollution from previous phases
+- Resource management: Prevents context overflow
+- Focused work: Subagent only sees its phase
+
+**Execution Model:**
+
+```
+Autonomous Executor (Main Agent):
+  │
+  ├─> Dispatch Phase 0 Subagent
+  │   └─> Executes: Brainstorming + Planning + Implementation
+  │       Reports: Design doc, Plan doc, Implementation report
+  │
+  ├─> Dispatch Phase 1 Subagent
+  │   └─> Executes: Brainstorming + Planning + Implementation
+  │       Reports: Design doc, Plan doc, Implementation report
+  │
+  └─> Continue for all phases...
+```
+
 ### Input
 
 A roadmap document (markdown) with multiple phases, each containing:
@@ -49,11 +76,22 @@ A roadmap document (markdown) with multiple phases, each containing:
 
 ### Process
 
-For each phase in the roadmap (sequentially):
+**For each phase in the roadmap:**
 
-**Phase 1: Autonomous Brainstorming**
+**1. Dispatch Phase Subagent**
 
-1. Read phase requirements
+Use Task tool with subagent_type='general-purpose':
+
+- Pass roadmap file path
+- Specify phase number
+- Instruct to complete all 3 steps (brainstorming, planning, implementation)
+- Wait for completion report
+
+**2. Phase Subagent Executes (all in one subagent):**
+
+**Step A: Autonomous Brainstorming**
+
+1. Read phase requirements from roadmap
 2. Analyze and understand problem space
 3. Evaluate multiple approaches internally
 4. Select best approach based on:
@@ -65,9 +103,9 @@ For each phase in the roadmap (sequentially):
 5. Create comprehensive design document
 6. Save to `docs/designs/YYYY-MM-DD-phase-N-<name>-design.md`
 
-**Phase 2: Autonomous Planning**
+**Step B: Autonomous Planning**
 
-1. Read design document
+1. Read design document (created in step A)
 2. Break down into bite-sized tasks (2-5 min each)
 3. Include complete code examples
 4. Specify exact file paths
@@ -75,11 +113,11 @@ For each phase in the roadmap (sequentially):
 6. Create detailed test-driven plan
 7. Save to `docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md`
 
-**Phase 3: Autonomous Implementation**
+**Step C: Autonomous Implementation**
 
-1. Read implementation plan
+1. Read implementation plan (created in step B)
 2. For each task sequentially:
-   - Dispatch fresh subagent
+   - Dispatch fresh task subagent
    - Follow TDD strictly (RED-GREEN-REFACTOR)
    - Enforce quality gates:
      - ✅ Code compiles
@@ -90,12 +128,16 @@ For each phase in the roadmap (sequentially):
 3. Run integration verification
 4. Generate implementation report
 5. Save to `docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md`
+6. Report back to main agent
 
-**Phase 4: Transition**
+**3. Main Agent Verifies and Continues**
 
-1. Verify phase complete
-2. Output phase summary
-3. Move to next phase
+1. Verify phase subagent completed all 3 steps
+2. Verify all deliverables created (design, plan, report)
+3. Output phase summary
+4. Dispatch next phase to NEW subagent
+
+**4. Repeat Until All Phases Complete**
 
 ### Output
 
