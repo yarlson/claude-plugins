@@ -498,3 +498,7 @@ For issues and questions:
 - [Plugin System](https://docs.anthropic.com/claude-code/plugins)
 - [Slash Commands](https://docs.anthropic.com/claude-code/slash-commands)
 - [Subagents](https://docs.anthropic.com/claude-code/sub-agents)
+
+---
+
+Built with ❤️ for developers who value simplicity and speed.
