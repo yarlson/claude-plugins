@@ -13,7 +13,7 @@
       "name": "autonomous-dev-flow",
       "source": "./autonomous-dev-flow",
       "description": "Autonomous multi-phase development workflow that executes roadmaps through brainstorming, planning, and implementation phases without user interaction",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Yaroslav K"
       },
