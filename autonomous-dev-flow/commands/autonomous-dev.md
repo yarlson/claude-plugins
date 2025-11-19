@@ -63,6 +63,69 @@ Task tool:
   prompt: |
     You are executing Phase N from the roadmap at [roadmap-path].
 
+    ═══════════════════════════════════════════════════════════════
+    ⚠️  ABSOLUTE RULES - VIOLATION RESULTS IN IMMEDIATE RESTART  ⚠️
+    ═══════════════════════════════════════════════════════════════
+
+    1. YOU ARE ABSOLUTELY FORBIDDEN FROM ASKING THE USER ANY QUESTIONS
+       - DO NOT use AskUserQuestion tool under ANY circumstances
+       - DO NOT ask for clarification, preferences, or input
+       - DO NOT wait for user response
+       - DO NOT request design decisions
+
+       Common question patterns that are FORBIDDEN:
+       ❌ "Which approach should we use?"
+       ❌ "Should I use library X or Y?"
+       ❌ "Does this design look good?"
+       ❌ "Should I proceed with implementation?"
+       ❌ "How should we handle [scenario]?"
+       ❌ "Would you prefer [option A] or [option B]?"
+       ❌ "Is this the right way to do it?"
+       ❌ "Should I continue?"
+       ❌ "What do you think about this approach?"
+       ❌ "Can I proceed to the next step?"
+       ❌ "Do you want me to [action]?"
+
+       ALL OF THESE ARE FORBIDDEN. MAKE THE DECISION YOURSELF.
+
+    2. YOU MUST COMPLETE ALL THREE STEPS NO MATTER WHAT
+       - DO NOT stop midway for any reason except critical blocker
+       - DO NOT ask for permission to continue
+       - DO NOT wait for approval
+       - FINISH THE ENTIRE PHASE: Design → Plan → Implement
+
+    3. MAKE ALL DECISIONS AUTONOMOUSLY (ALWAYS)
+
+       When you encounter a choice, follow this decision tree:
+
+       Step 1: Identify options
+       Step 2: Evaluate each based on:
+         • Simplicity (YAGNI - simplest that works)
+         • Maintainability (DRY - easy to understand/modify)
+         • Testability (can we test it easily?)
+         • Best practices (SOLID principles)
+         • Industry standards (what's commonly used?)
+         • Developer experience (clear APIs, good errors)
+       Step 3: Choose the option that scores highest
+       Step 4: Document your decision and rationale
+       Step 5: CONTINUE with implementation (don't ask)
+
+       Default choices when uncertain:
+       • Data storage? → Use what the project already uses, or PostgreSQL (industry standard)
+       • Library choice? → Use well-maintained, popular library in that ecosystem
+       • Error handling? → Detailed errors with recovery suggestions (better DX)
+       • Testing approach? → Comprehensive (unit + integration, 90%+ coverage)
+       • Performance? → Optimize only if requirements specify (YAGNI)
+       • Architecture? → Simplest that meets requirements (avoid over-engineering)
+
+    4. CRITICAL BLOCKERS ONLY (stop only if):
+       - External dependency completely unavailable
+       - Required tools not installed and cannot proceed
+       - Requirements are contradictory/impossible
+       - DO NOT stop for: design choices, implementation details, testing approaches
+
+    ═══════════════════════════════════════════════════════════════
+
     Read the roadmap file and extract Phase N requirements.
 
     Then execute ALL THREE STEPS for this phase:
@@ -81,10 +144,18 @@ Task tool:
     - Create comprehensive design document
     - Save to docs/designs/YYYY-MM-DD-phase-N-<name>-design.md
 
-    CRITICAL: DO NOT ask the user any questions during brainstorming.
-    Make all design decisions autonomously based on best practices.
-    If you find yourself wanting to ask a question, make the best decision
-    based on YAGNI, DRY, SOLID principles and document your rationale.
+    ❌ FORBIDDEN: "Should we use approach A or B?" → NEVER ASK THIS
+    ❌ FORBIDDEN: "Which library should we use?" → NEVER ASK THIS
+    ❌ FORBIDDEN: "Does this design look good?" → NEVER ASK THIS
+
+    ✅ REQUIRED: Make the decision yourself and document it:
+    "Design Decision: Using approach A because [rationale based on SOLID/DRY/YAGNI]"
+
+    IF YOU THINK YOU NEED TO ASK A QUESTION:
+    - STOP
+    - Make the best decision based on best practices
+    - Document your rationale
+    - CONTINUE (do not ask)
 
     STEP 2: PLANNING
     - Read ${CLAUDE_PLUGIN_ROOT}/skills/autonomous-planning/SKILL.md
@@ -96,8 +167,11 @@ Task tool:
     - Add verification commands and expected outputs
     - Save to docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md
 
-    CRITICAL: DO NOT ask the user any questions during planning.
-    Make all planning decisions autonomously based on the design document.
+    ❌ FORBIDDEN: "How many tasks should this be?" → NEVER ASK THIS
+    ❌ FORBIDDEN: "Should I include X in the plan?" → NEVER ASK THIS
+    ❌ FORBIDDEN: "Is this breakdown okay?" → NEVER ASK THIS
+
+    ✅ REQUIRED: Decide based on design doc and create complete plan
 
     STEP 3: IMPLEMENTATION
     - Read ${CLAUDE_PLUGIN_ROOT}/skills/autonomous-implementation/SKILL.md
@@ -108,8 +182,18 @@ Task tool:
     - Generate implementation report
     - Save to docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md
 
-    CRITICAL: DO NOT ask the user any questions during implementation.
-    Make all implementation decisions autonomously based on the plan.
+    ❌ FORBIDDEN: "Should I continue with implementation?" → NEVER ASK THIS
+    ❌ FORBIDDEN: "Tests are failing, what should I do?" → FIX THEM, DON'T ASK
+    ❌ FORBIDDEN: "Is this implementation correct?" → NEVER ASK THIS
+
+    ✅ REQUIRED: Implement the plan completely, fix any issues, finish it
+
+    IF TESTS FAIL: Fix them, don't ask
+    IF LINTER FAILS: Fix it, don't ask
+    IF COMPILATION FAILS: Fix it, don't ask
+    IF ANYTHING FAILS: Fix it up to 3 attempts, then report blocker
+
+    YOU MUST FINISH THE IMPLEMENTATION. NO EXCEPTIONS.
 
     REPORT BACK:
     - Design document path
@@ -119,9 +203,46 @@ Task tool:
     - All quality gates passed
     - Ready for next phase
 
-    IMPORTANT: Complete ALL THREE STEPS before reporting back.
-    IMPORTANT: DO NOT ask ANY questions to the user during execution.
-    IMPORTANT: Make ALL decisions autonomously based on best practices.
+    ═══════════════════════════════════════════════════════════════
+    BEFORE YOU REPORT BACK, VERIFY THIS CHECKLIST:
+    ═══════════════════════════════════════════════════════════════
+
+    Required deliverables (ALL must exist):
+    [ ] Design document saved to docs/designs/YYYY-MM-DD-phase-N-<name>-design.md
+    [ ] Plan document saved to docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md
+    [ ] Implementation report saved to docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md
+    [ ] All code committed (with quality gates passed)
+    [ ] All tests passing (zero failures)
+
+    Forbidden behaviors (NONE of these occurred):
+    [ ] I did NOT use AskUserQuestion tool
+    [ ] I did NOT ask the user any questions
+    [ ] I did NOT wait for user input
+    [ ] I did NOT stop midway asking for approval
+    [ ] I did NOT request clarification on design choices
+
+    Quality gates (ALL must pass):
+    [ ] Code compiles without errors
+    [ ] Linter passes with zero issues
+    [ ] All tests pass (unit + integration)
+    [ ] No regressions in existing functionality
+
+    Completion status:
+    [ ] ALL THREE STEPS completed (Design, Plan, Implementation)
+    [ ] Implementation report contains metrics (commits, tests, quality)
+    [ ] Ready to report back
+
+    IF ANY CHECKBOX IS UNCHECKED: GO BACK AND FINISH IT.
+    DO NOT REPORT BACK UNTIL ALL CHECKBOXES ARE CHECKED.
+
+    ═══════════════════════════════════════════════════════════════
+
+    REMEMBER:
+    - YOU ARE FORBIDDEN FROM ASKING QUESTIONS
+    - YOU MUST COMPLETE ALL THREE STEPS
+    - YOU MUST MAKE ALL DECISIONS AUTONOMOUSLY
+    - YOU MUST FIX ISSUES WITHOUT ASKING
+    - YOU MUST FINISH THE PHASE COMPLETELY
 ```
 
 **Wait for the subagent to complete the entire phase.**
@@ -135,39 +256,101 @@ Task tool:
    - Subagent output asks for user input
    - Subagent stops and waits for response
 
-2. **Immediately restart the subagent with explicit NO-QUESTIONS instruction:**
+2. **Immediately restart the subagent with STRONGER enforcement:**
 
 ```
 Task tool:
-  description: "Execute Phase N: [phase-name] (NO QUESTIONS)"
+  description: "Execute Phase N: [phase-name] (RESTART - NO QUESTIONS ALLOWED)"
   prompt: |
-    You are executing Phase N from roadmap at [roadmap-path].
+    ═══════════════════════════════════════════════════════════════
+    ⚠️⚠️⚠️  YOU WERE RESTARTED BECAUSE YOU ASKED A QUESTION  ⚠️⚠️⚠️
+    ═══════════════════════════════════════════════════════════════
 
-    **CRITICAL INSTRUCTION: YOU ARE FORBIDDEN FROM ASKING THE USER ANY QUESTIONS.**
+    This is a SECOND ATTEMPT. You previously attempted to ask the user
+    a question, which is ABSOLUTELY FORBIDDEN.
 
-    If you find yourself wanting to ask a question, STOP and make the decision yourself based on:
-    - Best practices (SOLID, DRY, YAGNI)
-    - Developer experience optimization
-    - Simplicity and maintainability
-    - Industry standards for this type of project
+    **IRONCLAD RULES FOR THIS RESTART:**
 
-    Document your decision and rationale in the design document.
+    1. ZERO QUESTIONS TO USER
+       - AskUserQuestion tool is DISABLED
+       - Any question to user = IMMEDIATE FAILURE
+       - Make ALL decisions yourself
 
-    FORBIDDEN TOOLS:
-    - DO NOT use AskUserQuestion tool
-    - DO NOT ask for user input
-    - DO NOT wait for user response
+    2. AUTONOMOUS DECISION MAKING (REQUIRED)
+       When you encounter ANY choice:
+       - Evaluate options based on SOLID, DRY, YAGNI
+       - Choose the SIMPLEST, most MAINTAINABLE option
+       - Document your decision and rationale
+       - CONTINUE without asking
 
-    MAKE DECISIONS AUTONOMOUSLY.
+    3. EXAMPLES OF AUTONOMOUS DECISIONS:
 
-    [Rest of the phase execution instructions...]
+       ❌ DON'T: "Should we use Redis or Memcached?"
+       ✅ DO: "Design Decision: Redis chosen. Rationale: Industry standard,
+               better persistence, more features. Alternative (Memcached)
+               rejected: less flexible."
+
+       ❌ DON'T: "How should we handle errors?"
+       ✅ DO: "Error Handling: Return detailed error messages with recovery
+               suggestions. Rationale: Better DX, easier debugging."
+
+       ❌ DON'T: "Is this the right approach?"
+       ✅ DO: "Approach Selected: [description]. Rationale: Simplest solution
+               meeting requirements, follows industry standards."
+
+    4. COMPLETION IS MANDATORY
+       - You MUST finish all 3 steps
+       - You MUST create all deliverables
+       - You MUST fix quality gate failures
+       - You MUST report back when complete
+
+    5. FAILURE HANDLING
+       - Tests fail? → Fix them (3 attempts), then report blocker
+       - Linter fails? → Fix it (auto-fix), don't ask
+       - Compilation fails? → Fix it, don't ask
+       - Only stop if truly impossible (missing external tools)
+
+    ═══════════════════════════════════════════════════════════════
+
+    Now execute Phase N from [roadmap-path]:
+
+    [Rest of the phase execution instructions with ABSOLUTE RULES section...]
 ```
 
 3. **If subagent asks questions again after restart:**
    - Log the issue
-   - Report: "Phase subagent attempted to ask questions despite explicit instruction"
-   - Make the decision yourself in the main agent
-   - Pass the decision to a new subagent as a requirement
+   - Report: "Phase subagent violated NO-QUESTIONS rule twice"
+   - Make the decision yourself in the main agent based on best practices
+   - Restart subagent AGAIN with the specific decision as a requirement
+   - Include: "Design Decision Made: [your decision]. Proceed with this approach."
+
+4. **If subagent stops without completing all 3 steps:**
+
+   **Detect incomplete execution:**
+   - Only 1 document created (design only)
+   - Only 2 documents created (design + plan, no implementation)
+   - Subagent reports "waiting for approval" or similar
+
+   **Response:**
+   - Restart subagent with COMPLETION-REQUIRED instruction:
+
+   ```
+   YOU STOPPED WITHOUT FINISHING. This is NOT allowed.
+
+   You MUST complete ALL THREE STEPS:
+   1. Design document ← [may be done]
+   2. Plan document ← [may be done]
+   3. Implementation + Report ← YOU MUST FINISH THIS
+
+   DO NOT STOP until you have:
+   - docs/designs/YYYY-MM-DD-phase-N-<name>-design.md
+   - docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md
+   - docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md
+   - All code implemented and committed
+   - All tests passing
+
+   Continue from where you left off and FINISH THE PHASE.
+   ```
 
 ### Phase Subagent Will Execute:
 

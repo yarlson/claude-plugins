@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Question detection and prevention mechanism in main executor
 - Explicit decision-making guidelines for autonomous operation
 - Visual diagrams showing correct vs incorrect execution patterns
+- Completion verification checklist (subagents must check before reporting)
+- List of 11 forbidden question patterns with examples
+- Default decision guidance for common choice points
+- Incomplete execution detection and restart mechanism
+- Stronger restart prompt with "YOU WERE RESTARTED" warning
+- Multi-level restart escalation (1st restart → 2nd restart with decision)
 
 ### Fixed
 
