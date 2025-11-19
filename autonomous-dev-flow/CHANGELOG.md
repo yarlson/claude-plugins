@@ -5,6 +5,30 @@ All notable changes to the Autonomous Development Flow plugin will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-11-19
+
+### Changed
+
+- **CRITICAL:** Clarified subagent-per-phase execution model - each phase MUST execute in its own separate subagent
+- **CRITICAL:** Enforced zero user interaction - subagents are forbidden from asking questions
+- Added explicit monitoring and restart mechanism for subagents that attempt to ask questions
+- Updated main executor to dispatch fresh subagent for each phase (all 3 steps in one subagent)
+- Added NO-QUESTIONS instruction to all phase subagent prompts
+- Clarified that main agent orchestrates but doesn't execute phases directly
+
+### Added
+
+- Question detection and prevention mechanism in main executor
+- Explicit decision-making guidelines for autonomous operation
+- Visual diagrams showing correct vs incorrect execution patterns
+
+### Fixed
+
+- Ambiguity about whether phases execute in subagents (now explicit: YES, mandatory)
+- Potential for subagents to ask user questions (now forbidden with monitoring)
+- Context pollution between phases (now prevented with fresh subagents)
+- Resource management for large roadmaps (now handled with subagent-per-phase)
+
 ## [1.0.0] - 2025-11-19
 
 ### Added
