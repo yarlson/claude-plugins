@@ -1,0 +1,21 @@
+{
+  "name": "autonomous-dev-flow",
+  "version": "1.0.0",
+  "description": "Autonomous multi-phase development workflow that executes roadmaps through brainstorming, planning, and implementation phases without user interaction",
+  "author": {
+    "name": "Yaroslav K"
+  },
+  "homepage": "https://github.com/yarlson/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "automation",
+    "development",
+    "workflow",
+    "autonomous",
+    "multi-phase",
+    "roadmap",
+    "tdd",
+    "quality-gates",
+    "best-practices"
+  ]
+}

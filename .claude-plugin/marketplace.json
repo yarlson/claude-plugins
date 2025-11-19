@@ -1,0 +1,36 @@
+{
+  "name": "yarlson-claude-plugins",
+  "owner": {
+    "name": "Yar Kravtsov",
+    "email": "yarlson@gmail.com"
+  },
+  "metadata": {
+    "description": "Claude Code plugins I made instead of yelling at my editor for the 400th time.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "autonomous-dev-flow",
+      "source": "./autonomous-dev-flow",
+      "description": "Autonomous multi-phase development workflow that executes roadmaps through brainstorming, planning, and implementation phases without user interaction",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yaroslav K"
+      },
+      "license": "MIT",
+      "keywords": [
+        "automation",
+        "development",
+        "workflow",
+        "autonomous",
+        "multi-phase",
+        "roadmap",
+        "tdd",
+        "quality-gates",
+        "best-practices"
+      ],
+      "category": "productivity",
+      "homepage": "https://github.com/yourusername/autonomous-dev-flow"
+    }
+  ]
+}
