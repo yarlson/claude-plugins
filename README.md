@@ -41,6 +41,44 @@ Autonomous multi-phase development workflow that executes roadmaps through brain
 - [Roadmap Building Guide](./autonomous-dev-flow/ROADMAP-GUIDE.md)
 - [Installation Guide](./autonomous-dev-flow/INSTALLATION.md)
 
+### Agent Handoff Documentation
+
+**Version:** 1.0.0
+**Category:** Productivity
+**License:** MIT
+
+Generate comprehensive handoff documentation optimized for AI agent takeover. Zero configuration. Fully autonomous. Machine-readable first.
+
+**Features:**
+
+- 🤖 **Zero Configuration** - Works out of the box, no setup required
+- ⚡ **Fully Autonomous** - No user questions during generation
+- 🎯 **Adaptive Output** - Generates appropriate docs based on project type
+- 📄 **8-Document Context Stack** - Complete handoff documentation suite
+- 🔍 **Smart Project Detection** - Identifies libraries, services, CLI tools, monorepos
+- 🌐 **Language Agnostic** - Supports Go, Python, TypeScript, Rust, Java, and more
+- 📋 **Machine-Readable** - Optimized for AI agent consumption
+- 🔄 **Git-Friendly** - All outputs are version-controllable text files
+
+**Commands:**
+
+- `/generate-handoff` - Generate complete handoff documentation
+
+**What It Generates:**
+
+- Handoff_Manifest.yaml (master index)
+- PRD_Machine_Readable.md (requirements with Gherkin flows)
+- Architecture_Decision_Records.md (design rationale)
+- Domain_Dictionary.json (terminology mappings)
+- System_Context_Map.mermaid (service boundaries)
+- Agent_Runbook.md (build/test/deploy instructions)
+- Codebase_Walkthrough_Annotated.md (directory guide)
+- Test_Strategy_Matrix.md (quality gates)
+
+**Documentation:**
+
+- [Full README](./agent-handoff/README.md)
+
 ## Installation
 
 ### Quick Install

@@ -1,0 +1,19 @@
+{
+  "name": "agent-handoff",
+  "version": "1.0.0",
+  "description": "Generate comprehensive handoff documentation optimized for AI agent takeover",
+  "author": {
+    "name": "Yaroslav K"
+  },
+  "homepage": "https://github.com/yarlson/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "documentation",
+    "handoff",
+    "ai-agents",
+    "context-stack",
+    "autonomous",
+    "machine-readable"
+  ],
+  "category": "productivity"
+}
