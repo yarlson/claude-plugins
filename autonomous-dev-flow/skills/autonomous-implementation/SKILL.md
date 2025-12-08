@@ -2,18 +2,18 @@
 name: Autonomous Implementation
 description: Execute implementation plans by dispatching subagents for each task with automatic verification and quality gates
 when_to_use: when you have a complete implementation plan and need to execute it autonomously
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Autonomous Implementation
 
 ## Overview
 
-Execute implementation plans by dispatching fresh subagents for each task, with automatic verification and quality gates. No user interaction required.
+Execute YAML implementation plans by dispatching fresh subagents for each task, with automatic verification and quality gates. No user interaction required.
 
 **Core principle:** Fresh subagent per task + automatic verification + quality gates = reliable autonomous execution
 
-**Input:** Implementation plan from autonomous planning phase
+**Input:** YAML implementation plan from autonomous planning phase
 **Output:** Fully implemented and tested feature, ready for review
 
 ## Quality Gates (ALL must pass)
@@ -34,25 +34,63 @@ Before any commit:
 
 ## The Process
 
-### 1. Load Plan
+### 1. Load and Parse YAML Plan
 
-Read implementation plan, create internal task list.
+- Read YAML implementation plan file
+- Parse YAML structure to extract:
+  - Tech stack and prerequisites
+  - Tasks list with test/impl pairs
+  - Integration tests
+  - Verification checklist
+- Create internal task list from `tasks` array
 
 ### 2. For Each Task: Dispatch Implementation Subagent
+
+**Extract task details from YAML:**
+
+```yaml
+# From tasks[N]:
+name: "Task name"
+objective: "What to accomplish"
+test:
+  file: "tests/path/to/test.py"
+  code: |
+    # Complete test code
+impl:
+  file: "src/path/to/impl.py"
+  code: |
+    # Complete implementation code
+commit: |
+  Commit message
+```
 
 **Subagent prompt:**
 
 ```
-You are implementing Task N from [plan-file-path].
+You are implementing: [task.name]
+Objective: [task.objective]
 
-Read that task section carefully. Your job is to:
+Task details from YAML plan:
+
+Test file: [task.test.file]
+Test code:
+[task.test.code]
+
+Implementation file: [task.impl.file]
+Implementation code:
+[task.impl.code]
+
+Commit message:
+[task.commit]
+
+Your job:
 
 1. **Follow TDD strictly:**
-   - Write the failing test first (Step 1)
-   - Run it to verify it fails (Step 2)
-   - Implement minimal code to pass (Step 3)
-   - Run test to verify it passes (Step 4)
-   - Run full test suite (Step 5)
+   - Write test to [task.test.file]
+   - Run test, verify it FAILS
+   - Write implementation to [task.impl.file]
+   - Run test, verify it PASSES
+   - Run full test suite, verify NO REGRESSIONS
 
 2. **Quality gates (ALL must pass before commit):**
    - ✅ Code compiles without errors
@@ -66,8 +104,8 @@ Read that task section carefully. Your job is to:
    - Test: [language-specific test command]
 
 4. **Commit only when ALL quality gates pass**
-   - Use exact commit message from plan
-   - Include all modified files
+   - Use exact commit message from task
+   - Include test and implementation files
 
 5. **Report back:**
    - What you implemented
@@ -119,35 +157,52 @@ Check subagent report for:
 
 ### 5. After All Tasks: Integration Verification
 
+**Extract integration tests from YAML plan:**
+
+```yaml
+# From plan YAML:
+integration:
+  - name: "Full test suite"
+    command: "pytest tests/ -v"
+    expect: "All tests pass"
+  - name: "Linting"
+    command: "ruff check ."
+    expect: "No issues"
+```
+
 **Dispatch integration verification subagent:**
 
 ```
 All tasks from [plan-file-path] are complete.
 
-Your job is to verify the integration:
+Your job is to verify the integration using tests from YAML plan:
 
-1. **Run full test suite:**
-   [test command]
-   Expected: All tests pass
+Integration tests to run:
+[For each item in integration list]
+- Name: [integration[N].name]
+- Command: [integration[N].command]
+- Expected: [integration[N].expect]
 
-2. **Run end-to-end tests from plan:**
-   [specific e2e scenarios from plan]
-   Verify each expected behavior
+Verification checklist from plan:
+[Each item from verification list]
 
-3. **Run linter on entire codebase:**
-   [lint command]
-   Expected: Zero issues
+Your steps:
 
-4. **Build the project:**
-   [build command]
-   Expected: Clean build
+1. **Run each integration test command**
+   - Execute command
+   - Compare output with expected result
+   - Record pass/fail
 
-5. **Test error scenarios from plan:**
-   [error scenarios]
-   Verify correct error handling
+2. **Verify checklist items**
+   - All unit tests pass
+   - Integration tests pass
+   - Code lints with zero warnings
+   - No regressions
+   - [Additional items from plan]
 
-6. **Report:**
-   - Integration test results
+3. **Report:**
+   - Integration test results (pass/fail for each)
+   - Checklist verification results
    - Any failures or issues
    - Performance observations
    - Recommendations

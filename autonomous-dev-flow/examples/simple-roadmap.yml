@@ -1,0 +1,78 @@
+# Simple Calculator Project Roadmap
+
+project:
+  name: "Simple Calculator"
+  language: "Python"
+  testing: "pytest"
+  linting: "ruff"
+  goal: "Build a calculator library with basic arithmetic operations"
+
+phases:
+  - id: 0
+    name: "Project Setup"
+    goal: "Set up project structure and testing framework"
+    success:
+      - "Directory structure created (src/, tests/)"
+      - "pytest installed and configured"
+      - "Basic project files created (README, setup.py)"
+      - "Can run tests successfully"
+
+  - id: 1
+    name: "Addition and Subtraction"
+    goal: "Implement basic arithmetic with add() and subtract() methods"
+    success:
+      - "Calculator class exists"
+      - "add(a, b) method works for integers and floats"
+      - "subtract(a, b) method works correctly"
+      - "Edge cases tested (negatives, zero, large numbers)"
+      - "100% test coverage"
+
+  - id: 2
+    name: "Multiplication and Division"
+    goal: "Add multiply() and divide() with proper error handling"
+    success:
+      - "multiply(a, b) method works correctly"
+      - "divide(a, b) method works correctly"
+      - "Division by zero raises ZeroDivisionError"
+      - "All edge cases tested"
+      - "Clear error messages"
+
+  - id: 3
+    name: "Advanced Operations"
+    goal: "Add power(), sqrt(), and modulo() operations"
+    success:
+      - "power(base, exponent) method works"
+      - "sqrt(n) method works"
+      - "modulo(a, b) method works"
+      - "Input validation prevents invalid operations"
+      - "All methods thoroughly tested"
+
+  - id: 4
+    name: "Expression Evaluator"
+    goal: "Evaluate string expressions with proper operator precedence"
+    success:
+      - "evaluate(expression) method works"
+      - "Operator precedence correct (* / before + -)"
+      - "Parentheses supported"
+      - "Invalid expressions raise clear errors"
+      - "Complex expressions tested"
+
+  - id: 5
+    name: "Command-Line Interface"
+    goal: "Create interactive CLI for calculator usage"
+    success:
+      - "Interactive REPL mode works"
+      - "Command-line argument mode works"
+      - "History feature shows previous calculations"
+      - "Help command available"
+      - "Clean exit handling (Ctrl+C)"
+
+  - id: 6
+    name: "Documentation and Packaging"
+    goal: "Complete documentation and PyPI packaging"
+    success:
+      - "README with installation and usage examples"
+      - "API documentation for all methods"
+      - "Usage examples in examples/ directory"
+      - "Package installable via pip"
+      - "All code has docstrings"

@@ -142,7 +142,7 @@ Task tool:
       • Best practices
       • Developer experience
     - Create comprehensive design document
-    - Save to docs/designs/YYYY-MM-DD-phase-N-<name>-design.md
+    - Save to docs/designs/YYYY-MM-DD-phase-N-<name>-design.yml (YAML format)
 
     ❌ FORBIDDEN: "Should we use approach A or B?" → NEVER ASK THIS
     ❌ FORBIDDEN: "Which library should we use?" → NEVER ASK THIS
@@ -163,9 +163,9 @@ Task tool:
     - Read the design document you just created
     - Break down into bite-sized tasks (2-5 minutes each)
     - Include complete code examples, exact file paths
-    - Add TDD steps (RED-GREEN-REFACTOR)
-    - Add verification commands and expected outputs
-    - Save to docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md
+    - Structure as test/impl pairs with commit messages
+    - Add integration tests and verification checklist
+    - Save to docs/plans/YYYY-MM-DD-phase-N-<name>-plan.yml (YAML format)
 
     ❌ FORBIDDEN: "How many tasks should this be?" → NEVER ASK THIS
     ❌ FORBIDDEN: "Should I include X in the plan?" → NEVER ASK THIS
@@ -208,8 +208,8 @@ Task tool:
     ═══════════════════════════════════════════════════════════════
 
     Required deliverables (ALL must exist):
-    [ ] Design document saved to docs/designs/YYYY-MM-DD-phase-N-<name>-design.md
-    [ ] Plan document saved to docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md
+    [ ] Design document saved to docs/designs/YYYY-MM-DD-phase-N-<name>-design.yml
+    [ ] Plan document saved to docs/plans/YYYY-MM-DD-phase-N-<name>-plan.yml
     [ ] Implementation report saved to docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md
     [ ] All code committed (with quality gates passed)
     [ ] All tests passing (zero failures)
@@ -438,8 +438,8 @@ Task tool:
   ✅ Phase N complete: <phase-name>
 
   Subagent completed all 3 steps:
-  - ✅ Design: docs/designs/YYYY-MM-DD-phase-N-<name>-design.md
-  - ✅ Plan: docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md
+  - ✅ Design: docs/designs/YYYY-MM-DD-phase-N-<name>-design.yml
+  - ✅ Plan: docs/plans/YYYY-MM-DD-phase-N-<name>-plan.yml
   - ✅ Implementation: docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md
 
   Results:
@@ -673,13 +673,13 @@ Create this documentation structure:
 ```
 docs/
 ├── designs/
-│   ├── YYYY-MM-DD-phase-0-<name>-design.md
-│   ├── YYYY-MM-DD-phase-1-<name>-design.md
-│   └── YYYY-MM-DD-phase-N-<name>-design.md
+│   ├── YYYY-MM-DD-phase-0-<name>-design.yml
+│   ├── YYYY-MM-DD-phase-1-<name>-design.yml
+│   └── YYYY-MM-DD-phase-N-<name>-design.yml
 ├── plans/
-│   ├── YYYY-MM-DD-phase-0-<name>-plan.md
-│   ├── YYYY-MM-DD-phase-1-<name>-plan.md
-│   └── YYYY-MM-DD-phase-N-<name>-plan.md
+│   ├── YYYY-MM-DD-phase-0-<name>-plan.yml
+│   ├── YYYY-MM-DD-phase-1-<name>-plan.yml
+│   └── YYYY-MM-DD-phase-N-<name>-plan.yml
 └── implementation-reports/
     ├── YYYY-MM-DD-phase-0-<name>-report.md
     ├── YYYY-MM-DD-phase-1-<name>-report.md

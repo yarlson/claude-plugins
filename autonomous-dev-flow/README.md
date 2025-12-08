@@ -1,6 +1,6 @@
 # Autonomous Development Flow Plugin
 
-A Claude Code plugin that enables autonomous execution of multi-phase development roadmaps. Transform roadmap documents into fully implemented, tested features through automatic brainstorming, planning, and implementation phases—without user interaction.
+A Claude Code plugin that enables autonomous execution of multi-phase development roadmaps. Transform YAML roadmap documents into fully implemented, tested features through automatic brainstorming, planning, and implementation phases—without user interaction.
 
 ## Overview
 
@@ -18,6 +18,7 @@ Perfect for executing well-defined roadmaps while maintaining high code quality 
 - ✅ **Sequential Phase Management** - Phases execute one at a time in order
 - ✅ **Quality Gates** - Enforces compilation, linting, and testing before commits
 - ✅ **Test-Driven Development** - Strict TDD (RED-GREEN-REFACTOR) for all code
+- ✅ **Compact YAML Format** - 60-70% token reduction vs verbose markdown
 - ✅ **Comprehensive Documentation** - Generates design docs, plans, and reports
 - ✅ **Best Practices** - Applies SOLID, DRY, YAGNI principles automatically
 - ✅ **Language Agnostic** - Supports Go, Python, Rust, TypeScript, Java, and more
@@ -51,55 +52,56 @@ The easiest way to create an execution-ready roadmap:
 /build-roadmap
 ```
 
-This interactive command will guide you through creating a comprehensive roadmap by asking questions about your project. It produces a roadmap optimized for autonomous execution.
+This interactive command will guide you through creating a comprehensive roadmap by asking questions about your project. It produces a YAML roadmap optimized for autonomous execution.
 
 **Or use the template:**
-See `templates/roadmap-template.md` for a complete template you can fill in manually.
+See `templates/roadmap-template.yml` for a complete template you can fill in manually.
 
 ### Executing a Roadmap (Autonomous)
 
 Once you have a roadmap:
 
 ```bash
-/autonomous-dev path/to/roadmap.md
+/autonomous-dev path/to/roadmap.yml
 ```
 
 This will autonomously execute all phases: design → plan → implement for each phase.
 
 ### Roadmap Format
 
-Your roadmap document should contain multiple phases with clear descriptions:
+Your roadmap document should be in YAML format with project metadata and phases:
 
-```markdown
-# Project Roadmap
+```yaml
+project:
+  name: "Project Name"
+  language: "Python"
+  testing: "pytest"
+  linting: "ruff"
+  goal: "One sentence project objective"
 
-## Phase 0: Foundation
+phases:
+  - id: 0
+    name: "Foundation"
+    goal: "Create basic utilities and project structure"
+    success:
+      - "Directory structure created"
+      - "String utilities working"
+      - "Tests passing"
 
-**Problem:** Need basic utilities and project structure
+  - id: 1
+    name: "Core Feature"
+    goal: "Implement tokenization and parsing"
+    success:
+      - "Tokenizer working correctly"
+      - "Parser generates AST"
+      - "All tests passing"
 
-**Solution:** Create string utilities and directory structure
-
-**Success Criteria:**
-
-- Directory structure created
-- String utilities working
-- Tests passing
-
-## Phase 1: Core Feature
-
-**Problem:** Need to implement main feature logic
-
-**Solution:** Implement tokenization and parsing
-
-**Success Criteria:**
-
-- Tokenizer working correctly
-- Parser generates AST
-- All tests passing
-
-## Phase 2: Integration
-
-...
+  - id: 2
+    name: "Integration"
+    goal: "Integrate with existing systems"
+    success:
+      - "Integration complete"
+      - "All tests passing"
 ```
 
 The plugin will:
@@ -117,12 +119,14 @@ For each phase, the plugin creates:
 ```
 docs/
 ├── designs/
-│   └── YYYY-MM-DD-phase-N-<name>-design.md
+│   └── YYYY-MM-DD-phase-N-<name>-design.yml
 ├── plans/
-│   └── YYYY-MM-DD-phase-N-<name>-plan.md
+│   └── YYYY-MM-DD-phase-N-<name>-plan.yml
 └── implementation-reports/
     └── YYYY-MM-DD-phase-N-<name>-report.md
 ```
+
+Design and plan documents are in compact YAML format for token efficiency. Implementation reports remain in Markdown for human readability.
 
 Plus your implemented and tested code in the appropriate source directories.
 
@@ -224,13 +228,14 @@ npm test                                # Test
 - Guides you through creating a roadmap
 - Asks structured questions one at a time
 - Validates incrementally
-- Produces execution-ready roadmap
+- Produces execution-ready YAML roadmap
 - Location: `commands/build-roadmap.md`
 
 ### 2. `/autonomous-dev` - Execute Roadmap
 
-- Executes multi-phase roadmaps autonomously
+- Executes multi-phase YAML roadmaps autonomously
 - Runs brainstorming → planning → implementation for each phase
+- Generates compact YAML designs and plans
 - Enforces quality gates
 - Location: `commands/autonomous-dev.md`
 
@@ -240,28 +245,28 @@ The plugin includes four skills:
 
 ### 1. Interactive Roadmap Builder
 
-- Transforms rough ideas into structured roadmaps
+- Transforms rough ideas into structured YAML roadmaps
 - Interactive questioning and validation
 - Optimizes roadmaps for autonomous execution
 - Location: `skills/roadmap-builder/SKILL.md`
 
 ### 2. Autonomous Brainstorming
 
-- Transforms requirements into designs
+- Transforms requirements into YAML designs
 - Makes informed architecture decisions
-- Documents design rationale
+- Documents design rationale in structured format
 - Location: `skills/autonomous-brainstorming/SKILL.md`
 
 ### 3. Autonomous Planning
 
-- Creates detailed implementation plans
-- Breaks down into executable tasks
+- Creates detailed YAML implementation plans
+- Breaks down into test/impl pairs
 - Includes complete code examples
 - Location: `skills/autonomous-planning/SKILL.md`
 
 ### 4. Autonomous Implementation
 
-- Executes plans with subagents
+- Parses YAML plans and executes with subagents
 - Enforces quality gates strictly
 - Verifies integration thoroughly
 - Location: `skills/autonomous-implementation/SKILL.md`
@@ -303,13 +308,13 @@ The plugin includes four skills:
 ```
 🎉 Autonomous Development Complete!
 
-Roadmap: docs/plans/self-hosting-roadmap.md
+Roadmap: docs/plans/self-hosting-roadmap.yml
 Phases completed: 6/6
 
 Documentation:
-- 6 design documents in docs/designs/
-- 6 implementation plans in docs/plans/
-- 6 implementation reports in docs/implementation-reports/
+- 6 design documents (YAML) in docs/designs/
+- 6 implementation plans (YAML) in docs/plans/
+- 6 implementation reports (Markdown) in docs/implementation-reports/
 
 Code changes:
 - 47 commits
@@ -322,6 +327,11 @@ Quality metrics:
 - ✅ All tests passing
 - ✅ No regressions
 - ✅ Complete documentation
+
+Token efficiency:
+- ~67% reduction vs markdown format
+- Faster processing
+- Lower API costs
 
 Status: Ready for review and merge
 ```
@@ -440,32 +450,35 @@ To contribute:
 
 ### Testing
 
-Test the plugin with a simple roadmap:
+Test the plugin with a simple YAML roadmap:
 
 ```bash
 # Create test roadmap
-cat > test-roadmap.md << 'EOF'
-# Test Roadmap
+cat > test-roadmap.yml << 'EOF'
+project:
+  name: "Test Feature"
+  language: "Python"
+  testing: "pytest"
+  linting: "ruff"
+  goal: "Simple hello function"
 
-## Phase 0: Simple Feature
-
-**Problem:** Need a hello function
-
-**Solution:** Implement hello() that returns "Hello, World!"
-
-**Success Criteria:**
-- Function exists
-- Returns correct string
-- Tests pass
+phases:
+  - id: 0
+    name: "Simple Feature"
+    goal: "Implement hello() that returns 'Hello, World!'"
+    success:
+      - "Function exists"
+      - "Returns correct string"
+      - "Tests pass"
 EOF
 
 # Run autonomous development
-/autonomous-dev test-roadmap.md
+/autonomous-dev test-roadmap.yml
 
 # Verify output
-ls -la docs/designs/
-ls -la docs/plans/
-ls -la docs/implementation-reports/
+ls -la docs/designs/     # .yml files
+ls -la docs/plans/       # .yml files
+ls -la docs/implementation-reports/  # .md files
 ```
 
 ## License

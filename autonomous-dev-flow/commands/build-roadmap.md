@@ -250,7 +250,7 @@ Ask for:
 Present final roadmap, ask for confirmation, then save to:
 
 ```
-docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.md
+docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
 ```
 
 Output:
@@ -258,159 +258,52 @@ Output:
 ```
 ✅ Roadmap saved!
 
-Location: docs/roadmaps/2025-11-19-json-parser-roadmap.md
+Location: docs/roadmaps/2025-12-08-json-parser-roadmap.yml
 Phases: 6 phases
-Total estimated time: 18-24 hours
 
 Ready to execute with:
-/autonomous-dev docs/roadmaps/2025-11-19-json-parser-roadmap.md
+/autonomous-dev docs/roadmaps/2025-12-08-json-parser-roadmap.yml
 
 Or review/edit the roadmap first, then execute when ready.
 ```
 
 # Roadmap Format
 
-Use this exact format:
+Use this YAML format:
 
-````markdown
-# [Project Name] Roadmap
+```yaml
+project:
+  name: "[Project Name]"
+  language: "[Python|Go|Rust|TypeScript|etc]"
+  testing: "[pytest|go test|cargo test|jest|etc]"
+  linting: "[ruff|golangci-lint|clippy|eslint|etc]"
+  goal: "[One sentence project objective]"
 
-**Status:** Ready for Execution
-**Priority:** [HIGH/MEDIUM/LOW]
-**Created:** YYYY-MM-DD
-**Language:** [Programming Language]
-**Testing Framework:** [e.g., pytest, jest, go test]
-**Linting:** [e.g., ruff, eslint, golangci-lint]
+phases:
+  - id: 0
+    name: "[Phase Name]"
+    goal: "[What this phase accomplishes]"
+    success:
+      - "[Specific, measurable outcome 1]"
+      - "[Specific, measurable outcome 2]"
+      - "[Specific, measurable outcome 3]"
+      - "All tests passing"
 
-**Project Goal:** [One sentence]
+  - id: 1
+    name: "[Phase Name]"
+    goal: "[What this phase accomplishes]"
+    success:
+      - "[Specific outcome 1]"
+      - "[Specific outcome 2]"
+      - "All tests passing"
 
-**Target Audience:** [Who uses this]
-
-**Success Metrics:**
-
-- [Metric 1]
-- [Metric 2]
-
-**Estimated Timeline:**
-
-- Phase 0: [X hours]
-- Phase 1: [Y hours]
-- Total: [Z hours]
-
----
-
-## Phase 0: [Name]
-
-**Problem Statement:**
-[What problem this phase solves]
-
-**Solution Overview:**
-[High-level approach]
-
-**Success Criteria:**
-
-- ✅ [Specific outcome 1]
-- ✅ [Specific outcome 2]
-- ✅ [Specific outcome 3]
-- ✅ All tests passing
-- ✅ Documentation updated
-
-**Implementation Details:**
-
-- [Detail 1]
-- [Detail 2]
-- [Technologies/patterns to use]
-
-**Dependencies:**
-
-- [None for Phase 0, or list]
-
-**Testing Strategy:**
-
-- Unit tests: [what]
-- Integration tests: [what]
-- Edge cases: [list]
-
-**Estimated Effort:** [X hours]
-
----
-
-[Repeat for all phases]
-
----
-
-## Testing Strategy (Overall)
-
-**Unit Tests:**
-
-- [Approach]
-- Coverage goal: [X%]
-
-**Integration Tests:**
-
-- [Approach]
-
----
-
-## Quality Standards
-
-**Code Quality:**
-
-- Follow [style guide]
-- Use [type annotations]
-- Documentation requirements
-
-**Testing:**
-
-- TDD approach
-- Minimum coverage: [X%]
-
----
-
-## Deliverables
-
-**Source Code:**
-
-- [List main components and locations]
-
-**Tests:**
-
-- [List test suites]
-
-**Documentation:**
-
-- README.md
-- API docs
-- Examples
-
----
-
-## Risk Analysis
-
-**High Risks:**
-
-- [Risk]: [Mitigation]
-
-**Medium Risks:**
-
-- [Risk]: [Mitigation]
-
----
-
-## Future Enhancements (Post-MVP)
-
-- [Feature 1]: [Why deferred]
-- [Feature 2]: [Why deferred]
-
----
+  # Continue for all phases
+```
 
 **Ready for autonomous execution with:**
 
 ```bash
-/autonomous-dev docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.md
-```
-````
-
+/autonomous-dev docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
 ```
 
 # Question Examples
@@ -496,6 +389,7 @@ D) Balanced approach"
 # Common Project Patterns
 
 ## Library/Package
+
 ```
 
 Phase 0: Core data structures
@@ -507,6 +401,7 @@ Phase 4: Packaging
 ```
 
 ## Web Service/API
+
 ```
 
 Phase 0: Project setup + database
@@ -520,6 +415,7 @@ Phase 6: Deployment
 ```
 
 ## CLI Tool
+
 ```
 
 Phase 0: Argument parsing
@@ -542,6 +438,7 @@ The roadmap you create will be consumed by `/autonomous-dev`, which will:
 5. **Move to next phase** and repeat
 
 Make sure each phase has:
+
 - ✅ Clear problem statement (guides brainstorming)
 - ✅ Solution approach (guides design decisions)
 - ✅ Success criteria (becomes test requirements)
@@ -555,4 +452,7 @@ Begin by asking: **"What project would you like to build?"**
 Then follow the 7-step process from the skill file, asking questions one at a time, validating incrementally, and building toward a complete, execution-ready roadmap.
 
 Remember: Your goal is to create a roadmap that the autonomous development flow can execute with confidence, producing working, tested, documented code.
+
+```
+
 ```

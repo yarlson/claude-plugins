@@ -2,7 +2,7 @@
 name: Autonomous Planning
 description: Create detailed implementation plans with bite-sized tasks from design documents, assuming zero codebase context
 when_to_use: when design is complete and you need to create an actionable implementation plan
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Autonomous Planning
@@ -13,274 +13,150 @@ Transform design documents into comprehensive implementation plans with bite-siz
 
 **Core principle:** Break down designs into small, verifiable steps with complete context for each.
 
-**Input:** Design document from autonomous brainstorming phase
-**Output:** Implementation plan saved to `docs/plans/YYYY-MM-DD-<feature-name>-plan.md`
+**Input:** Design YAML document from autonomous brainstorming phase
+**Output:** Implementation plan in YAML format saved to `docs/plans/YYYY-MM-DD-<feature-name>-plan.yml`
 
-## Bite-Sized Task Granularity
+## Task Granularity
 
-**Each step is one action (2-5 minutes):**
+**Each task follows TDD structure:**
 
-- "Write the failing test" - step
-- "Run it to make sure it fails" - step
-- "Implement the minimal code to make the test pass" - step
-- "Run the tests and make sure they pass" - step
-- "Commit" - step
+- `test`: Write the test code and file path
+- `impl`: Write the implementation code and file path
+- `commit`: Commit message
+
+**The implementation agent will:**
+
+1. Write test file
+2. Run test (verify it fails)
+3. Write implementation
+4. Run test (verify it passes)
+5. Run full test suite (verify no regressions)
+6. Commit with provided message
 
 **Never:**
 
-- Combine multiple actions into one step
-- Write vague instructions like "add validation"
+- Combine multiple features into one task
+- Write vague test cases
 - Skip test-first workflow
 - Defer testing to end
 
 ## Plan Document Structure
 
-````markdown
-# [Feature Name] Implementation Plan
-
-> **Status:** Ready for implementation
-> **Design:** docs/designs/YYYY-MM-DD-<feature-name>-design.md
-
-**Goal:** [One sentence describing what this builds]
-
-**Architecture:** [2-3 sentences about approach from design]
-
-**Tech Stack:** [Key technologies/libraries]
-
-**Prerequisites:**
-
-- [Any required setup]
-- [Dependencies to install]
-- [Environment configuration]
-
----
-
-## Task 1: [Component Name]
-
-**Objective:** [What this task accomplishes]
-
-**Files:**
-
-- Create: `exact/path/to/file.ext`
-- Modify: `exact/path/to/existing.ext:123-145`
-- Test: `tests/exact/path/to/test.ext`
-
-**Background:**
-[Brief context about this component and why it's needed]
-
-### Step 1: Write the failing test
-
-**File:** `tests/exact/path/to/test.ext`
-
-```language
-// Complete test code here
-def test_specific_behavior():
-    # Given
-    setup = create_test_setup()
-
-    # When
-    result = function(input)
-
-    # Then
-    assert result == expected
-```
-````
-
-**Why this test:** [Explain what behavior we're verifying]
-
-### Step 2: Run test to verify it fails
-
-**Command:**
-
-```bash
-pytest tests/path/test.ext::test_name -v
-```
-
-**Expected output:**
-
-```
-FAILED - NameError: function 'function' is not defined
-```
-
-**Why verify failure:** Ensures test actually tests the behavior (not false positive)
-
-### Step 3: Write minimal implementation
-
-**File:** `exact/path/to/file.ext`
-
-```language
-// Complete implementation code here
-def function(input):
-    """
-    Brief description of what this does.
-
-    Args:
-        input: Description
-
-    Returns:
-        Description
-    """
-    # Implementation
-    return expected
-```
-
-**Implementation notes:**
-
-- [Any important details]
-- [Edge cases handled]
-- [Design patterns used]
-
-### Step 4: Run test to verify it passes
-
-**Command:**
-
-```bash
-pytest tests/path/test.ext::test_name -v
-```
-
-**Expected output:**
-
-```
-PASSED
-```
-
-### Step 5: Run full test suite
-
-**Command:**
-
-```bash
-pytest tests/ -v
-# or npm test, cargo test, go test ./..., etc.
-```
-
-**Expected:** All tests pass, no regressions
-
-### Step 6: Commit
-
-**Command:**
-
-```bash
-git add tests/path/test.ext src/path/file.ext
-git commit -m "feat: add [specific feature]
-
-- Implements [capability]
-- Tests cover [scenarios]
-
-Refs: #issue-number (if applicable)"
-```
-
----
-
-## Task 2: [Next Component]
-
-[Same structure as Task 1]
-
----
-
-## Integration Testing
-
-After all tasks complete:
-
-### Test: End-to-end workflow
-
-**Objective:** Verify all components work together
-
-**Command:**
-
-```bash
-# Complete test command
-```
-
-**Expected behavior:**
-
-- [Specific outcome 1]
-- [Specific outcome 2]
-- [Specific outcome 3]
-
-### Test: Error scenarios
-
-**Objective:** Verify error handling
-
-**Scenarios:**
-
-1. [Error scenario 1] → [Expected behavior]
-2. [Error scenario 2] → [Expected behavior]
-
----
-
-## Verification Checklist
-
-Before considering implementation complete:
-
-- [ ] All unit tests pass
-- [ ] Integration tests pass
-- [ ] Error handling tested
-- [ ] Code linted (zero warnings)
-- [ ] Documentation updated
-- [ ] Examples work
-- [ ] Performance acceptable (if applicable)
-- [ ] No regressions in existing functionality
-
----
-
-## Rollback Plan
-
-If issues discovered after integration:
-
-1. **Immediate:** Revert to commit [specify stable commit]
-2. **Diagnosis:** [How to diagnose what went wrong]
-3. **Fix:** [General approach to fixing]
-4. **Verification:** [How to verify fix works]
-
----
-
-## Notes for Implementation
-
-**Common pitfalls:**
-
-- [Pitfall 1 and how to avoid]
-- [Pitfall 2 and how to avoid]
-
-**Performance considerations:**
-
-- [If applicable]
-
-**Security considerations:**
-
-- [If applicable]
-
-**Dependencies:**
-
-- [External dependencies]
-- [Version constraints]
-
----
-
-**Next Steps:** Begin implementation with Task 1
-
+Create implementation plan as YAML with the following structure:
+
+```yaml
+meta:
+  phase: 0
+  name: "Foundation"
+  design: "docs/designs/YYYY-MM-DD-<feature-name>-design.yml"
+  created: "2025-12-08"
+
+goal: "One sentence describing what this plan implements"
+
+tech_stack:
+  - "Python 3.9+"
+  - "pytest for testing"
+  - "ruff for linting"
+
+prerequisites:
+  - "Python 3.9+ installed"
+  - "Virtual environment activated"
+  - "Dependencies installed"
+
+tasks:
+  - name: "Calculator addition method"
+    objective: "Implement add(a, b) with TDD"
+    test:
+      file: "tests/test_calculator.py"
+      code: |
+        import pytest
+        from calculator import Calculator
+
+        def test_add_positive():
+            calc = Calculator()
+            assert calc.add(2, 3) == 5
+
+        def test_add_negative():
+            calc = Calculator()
+            assert calc.add(-2, -3) == -5
+
+    impl:
+      file: "src/calculator.py"
+      code: |
+        class Calculator:
+            def add(self, a: float, b: float) -> float:
+                """Add two numbers."""
+                return a + b
+
+    commit: |
+      feat: add Calculator.add() method
+
+      - Implements addition
+      - Full test coverage
+
+  - name: "Calculator subtraction method"
+    objective: "Implement subtract(a, b) with TDD"
+    test:
+      file: "tests/test_calculator.py"
+      code: |
+        def test_subtract():
+            calc = Calculator()
+            assert calc.subtract(5, 3) == 2
+
+    impl:
+      file: "src/calculator.py"
+      code: |
+        def subtract(self, a: float, b: float) -> float:
+            """Subtract b from a."""
+            return a - b
+
+    commit: |
+      feat: add Calculator.subtract() method
+
+      - Implements subtraction
+      - Full test coverage
+
+integration:
+  - name: "Full test suite"
+    command: "pytest tests/ -v"
+    expect: "All tests pass"
+
+  - name: "Linting"
+    command: "ruff check ."
+    expect: "No issues"
+
+verification:
+  - "All unit tests pass"
+  - "Integration tests pass"
+  - "Code lints with zero warnings"
+  - "No regressions"
 ```
 
 ## Planning Principles
 
 **Complete Context:**
+
 - Every task has all information needed
 - No assumptions about prior knowledge
 - Exact file paths, never relative or vague
 - Complete code examples, not snippets
 
 **Test-Driven:**
+
 - Every task follows RED-GREEN-REFACTOR
 - Tests written before implementation
 - Tests verify behavior, not implementation
 - Edge cases explicitly tested
 
 **Granular:**
+
 - Tasks are 10-20 minutes max
 - Steps are 2-5 minutes each
 - Frequent commits (after each passing test)
 - Clear verification at each step
 
 **Verifiable:**
+
 - Every step has expected output
 - Clear pass/fail criteria
 - Commands are copy-pasteable
@@ -289,18 +165,21 @@ If issues discovered after integration:
 ## Task Ordering
 
 **Dependencies first:**
+
 - Utilities before features
 - Data structures before algorithms
 - Interfaces before implementations
 - Core before extensions
 
 **Risk management:**
+
 - High-risk/unknown tasks early
 - Integration points early
 - Performance-critical paths early
 - Easy wins sprinkled throughout (morale)
 
 **Logical grouping:**
+
 - Related functionality together
 - Complete vertical slices
 - Minimize context switching
@@ -308,6 +187,7 @@ If issues discovered after integration:
 ## Code Examples in Plans
 
 **Always include:**
+
 - Complete, runnable code
 - Imports/dependencies
 - Type annotations (if language supports)
@@ -315,6 +195,7 @@ If issues discovered after integration:
 - Error handling
 
 **Never include:**
+
 - Pseudocode
 - "TODO" markers
 - "Add your code here" placeholders
@@ -323,18 +204,21 @@ If issues discovered after integration:
 ## Testing Strategy
 
 **Unit tests:**
+
 - Test one function/method
 - Mock external dependencies
 - Fast execution
 - Clear failure messages
 
 **Integration tests:**
+
 - Test components working together
 - Minimal mocking
 - Real(istic) data
 - Cover critical paths
 
 **Edge cases:**
+
 - Empty inputs
 - Null/nil values
 - Boundary conditions
@@ -360,6 +244,7 @@ Refs: #issue-number
 ## Anti-Patterns to Avoid
 
 **In planning:**
+
 - ❌ "Implement the feature" (too vague)
 - ❌ "Add tests" (tests are integrated in TDD)
 - ❌ "Fix any bugs" (not a planned task)
@@ -368,6 +253,7 @@ Refs: #issue-number
 - ❌ Vague file paths
 
 **In tasks:**
+
 - ❌ Multiple concepts in one task
 - ❌ Tasks depending on future tasks
 - ❌ Mixing refactoring with features
@@ -378,26 +264,28 @@ Refs: #issue-number
 
 Before saving plan:
 
-- [ ] Every task has objective and context
+- [ ] Valid YAML syntax (proper indentation, quotes, pipes for code blocks)
+- [ ] Meta section complete (phase, name, design path, created date)
+- [ ] Every task has name, objective, test, impl, and commit
 - [ ] Every file path is exact and absolute
 - [ ] Every code block is complete and runnable
-- [ ] Every test has expected output
-- [ ] Every commit message is provided
 - [ ] Tasks ordered by dependencies
-- [ ] Integration testing included
-- [ ] Verification checklist included
-- [ ] Rollback plan included
-- [ ] Common pitfalls documented
+- [ ] Integration tests included
+- [ ] Verification list included
+- [ ] Tech stack and prerequisites documented
 
 ## Save Location
 
-Save to: `docs/plans/YYYY-MM-DD-<feature-name>-plan.md`
+Save to: `docs/plans/YYYY-MM-DD-<feature-name>-plan.yml`
 
 Use same feature name as design document for traceability.
+
+**IMPORTANT:** Output as valid YAML. Use pipe (`|`) for multi-line code blocks. Proper indentation (2 spaces).
 
 ## Integration with Next Phase
 
 After saving plan, output summary:
+
 - Path to saved plan
 - Number of tasks
 - Estimated time (task count × 15 minutes)
@@ -405,11 +293,10 @@ After saving plan, output summary:
 
 ## Remember
 
+- Output valid YAML format
 - Assume zero codebase knowledge
 - Provide complete code, not snippets
-- Exact paths, exact commands
-- TDD all the way
-- Small steps, frequent commits
-- Verify everything
-- DRY, YAGNI, SOLID
-```
+- Exact paths for all files
+- Test/impl pairs for TDD workflow
+- Complete commit messages
+- DRY, YAGNI, SOLID principles

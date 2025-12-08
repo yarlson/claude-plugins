@@ -2,7 +2,7 @@
 name: Interactive Roadmap Builder
 description: Interactive roadmap creation through structured questioning, producing roadmaps optimized for autonomous development execution
 when_to_use: when you need to create a multi-phase development roadmap from a rough idea or requirements
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Interactive Roadmap Builder
@@ -11,9 +11,9 @@ version: 1.0.0
 
 Transform rough project ideas into comprehensive, execution-ready roadmaps through structured questioning and incremental validation. Produces roadmaps optimized for the Autonomous Development Flow plugin.
 
-**Core principle:** Ask questions to understand, break into phases, validate incrementally, produce actionable roadmap.
+**Core principle:** Ask questions to understand, break into phases, validate incrementally, produce actionable YAML roadmap.
 
-**Output:** A roadmap document saved to `docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.md`
+**Output:** A roadmap in YAML format saved to `docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml`
 
 ## The Process
 
@@ -119,18 +119,17 @@ For each phase identified, ask:
 
 **Present each phase incrementally:**
 
-```
-Here's what I have for Phase 0 so far:
+```yaml
+# Here's what I have for Phase 0 so far:
 
-Phase 0: Foundation and Setup
-- Problem: Need project structure and basic utilities
-- Solution: Create directory structure, testing framework, string utilities
-- Success Criteria:
-  • Directory structure created
-  • Tests can run
-  • Basic utilities working
-
-Does this look right? Any changes?
+- id: 0
+  name: "Foundation and Setup"
+  goal: "Create project structure and basic utilities"
+  success:
+    - "Directory structure created"
+    - "Tests can run"
+    - "Basic utilities working"
+# Does this look right? Any changes?
 ```
 
 **After validation, move to next phase.**
@@ -139,22 +138,27 @@ Does this look right? Any changes?
 
 Present complete roadmap outline:
 
-```markdown
-# [Project Name] Roadmap
+```yaml
+project:
+  name: "[Project Name]"
+  goal: "[Brief description]"
 
-Overview: [Brief description]
+phases:
+  - id: 0
+    name: "[Name]"
+    goal: "[What this phase accomplishes]"
+    success:
+      - "[Success criterion 1]"
+      - "[Success criterion 2]"
 
-## Phase 0: [Name]
+  - id: 1
+    name: "[Name]"
+    goal: "[What this phase accomplishes]"
+    success:
+      - "[Success criterion 1]"
+      - "[Success criterion 2]"
 
-**Problem:** [What needs solving]
-**Solution:** [Approach]
-**Success Criteria:** [How we know it's done]
-
-## Phase 1: [Name]
-
-...
-
-[All phases listed]
+  # [All phases listed]
 ```
 
 **Ask:**
@@ -166,58 +170,31 @@ Overview: [Brief description]
 
 **Iterate until user is satisfied.**
 
-### Phase 5: Phase Detail Enrichment
+### Phase 5: Success Criteria Refinement
 
-For each phase, expand with more details:
+For each phase, ensure success criteria are specific and measurable:
 
 **Ask for each phase:**
 
-1. "What are the key components/files needed?"
-2. "What edge cases should be handled?"
-3. "Any performance or security considerations?"
-4. "Integration points with other phases?"
-5. "Testing strategy for this phase?"
+1. "Are the success criteria specific enough?"
+2. "Any edge cases that should be included?"
+3. "Any performance or security requirements for this phase?"
 
-**Present enriched phase:**
+**Present refined phase:**
 
-```markdown
-## Phase 2: Core Feature Implementation
-
-**Problem Statement:**
-Users need to [specific need]. Current approach [current limitation].
-
-**Solution Overview:**
-Implement [component] that provides [capability]. Use [approach/pattern]
-to ensure [quality attribute].
-
-**Success Criteria:**
-
-- ✅ [Specific deliverable 1]
-- ✅ [Specific deliverable 2]
-- ✅ [Specific deliverable 3]
-- ✅ All tests passing
-- ✅ Documentation updated
-
-**Implementation Details:**
-
-- Component A: [description]
-- Component B: [description]
-- Use [library/pattern] for [reason]
-- Handle [edge case] by [approach]
-
-**Dependencies:**
-
-- Requires Phase 0 (project setup) complete
-- Requires Phase 1 (utilities) complete
-
-**Testing Strategy:**
-
-- Unit tests for [components]
-- Integration tests for [interactions]
-- Edge cases: [list]
+```yaml
+- id: 2
+  name: "Core Feature Implementation"
+  goal: "Implement [component] with [key capability]"
+  success:
+    - "[Component A] working correctly"
+    - "[Component B] integrated with [Component A]"
+    - "Edge case [X] handled properly"
+    - "All tests passing"
+    - "[Performance requirement] met"
 ```
 
-**Validate:** "Does this phase description have enough detail for implementation?"
+**Validate:** "Do these success criteria give clear direction for implementation?"
 
 **Iterate through all phases.**
 
@@ -235,50 +212,35 @@ Collect final metadata:
 
 **Add to roadmap header:**
 
-```markdown
-# [Project Name] Roadmap
-
-**Status:** Ready for Execution
-**Priority:** HIGH/MEDIUM/LOW
-**Language:** [Language]
-**Testing:** [Framework]
-**Linting:** [Tool]
-**Created:** YYYY-MM-DD
-
-**Estimated Timeline:**
-
-- Phase 0: [X hours]
-- Phase 1: [Y hours]
-  ...
-
-**Total Estimated Time:** [Z hours]
+```yaml
+project:
+  name: "[Project Name]"
+  language: "[Language]"
+  testing: "[Framework]"
+  linting: "[Tool]"
+  goal: "[One sentence project objective]"
 ```
 
 ### Phase 7: Final Review and Save
 
-Present complete roadmap:
-
-```markdown
-[Full roadmap with all sections]
-```
+Present complete roadmap in YAML format.
 
 **Ask:** "This roadmap is ready. Should I save it?"
 
 **If yes:**
 
-- Save to `docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.md`
+- Save to `docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml`
 - Generate filename from project name (lowercase, hyphen-separated)
 - Output summary:
 
   ```
   ✅ Roadmap saved!
 
-  Location: docs/roadmaps/YYYY-MM-DD-project-name-roadmap.md
+  Location: docs/roadmaps/YYYY-MM-DD-project-name-roadmap.yml
   Phases: X phases
-  Total estimated time: Y hours
 
   Ready to execute with:
-  /autonomous-dev docs/roadmaps/YYYY-MM-DD-project-name-roadmap.md
+  /autonomous-dev docs/roadmaps/YYYY-MM-DD-project-name-roadmap.yml
 
   Or review/edit the roadmap first and then execute.
   ```
@@ -287,193 +249,39 @@ Present complete roadmap:
 
 ### Complete Roadmap Format
 
-````markdown
-# [Project Name] Roadmap
-
-**Status:** Ready for Execution
-**Priority:** [HIGH/MEDIUM/LOW]
-**Created:** YYYY-MM-DD
-**Language:** [Programming Language]
-**Testing Framework:** [e.g., pytest, jest, go test]
-**Linting:** [e.g., ruff, eslint, golangci-lint]
-
-**Project Goal:** [One sentence describing the ultimate objective]
-
-**Target Audience:** [Who will use this]
-
-**Success Metrics:**
-
-- [Metric 1]
-- [Metric 2]
-- [Metric 3]
-
-**Estimated Timeline:**
-
-- Phase 0: [X hours]
-- Phase 1: [Y hours]
-- ...
-- **Total:** [Z hours]
-
----
-
-## Phase 0: [Phase Name]
-
-**Problem Statement:**
-[Detailed description of what problem this phase solves]
-
-**Solution Overview:**
-[High-level approach to solving the problem]
-
-**Success Criteria:**
-
-- ✅ [Specific, measurable outcome 1]
-- ✅ [Specific, measurable outcome 2]
-- ✅ [Specific, measurable outcome 3]
-- ✅ All tests passing
-- ✅ Documentation updated
-
-**Implementation Details:**
-
-- [Detail 1: what needs to be built]
-- [Detail 2: key components]
-- [Detail 3: technologies/patterns to use]
-- [Detail 4: edge cases to handle]
-
-**Dependencies:**
-
-- [None for Phase 0, or list prerequisites]
-
-**Testing Strategy:**
-
-- Unit tests: [what to test]
-- Integration tests: [what to test]
-- Edge cases: [list specific scenarios]
-
-**Estimated Effort:** [X hours]
-
----
-
-## Phase 1: [Phase Name]
-
-[Same structure as Phase 0]
-
----
-
-[Continue for all phases]
-
----
-
-## Testing Strategy (Overall)
-
-**Unit Tests:**
-
-- [Approach to unit testing across project]
-- Coverage goal: [X%]
-
-**Integration Tests:**
-
-- [Approach to integration testing]
-- Key scenarios: [list]
-
-**End-to-End Tests:**
-
-- [If applicable]
-
-**Performance Tests:**
-
-- [If applicable]
-
----
-
-## Quality Standards
-
-**Code Quality:**
-
-- Follow [style guide]
-- Use [type system/annotations]
-- Maximum function complexity: [metric]
-- Documentation: [requirements]
-
-**Testing:**
-
-- TDD approach (test first)
-- Minimum coverage: [X%]
-- All edge cases covered
-- No flaky tests
-
-**Documentation:**
-
-- API documentation for all public interfaces
-- Usage examples
-- Architecture overview
-- Contributing guide (if open source)
-
----
-
-## Deliverables
-
-After completing all phases:
-
-**Source Code:**
-
-- [Component 1]: [location]
-- [Component 2]: [location]
-- [Component 3]: [location]
-
-**Tests:**
-
-- [Test suite 1]: [location]
-- [Test suite 2]: [location]
-
-**Documentation:**
-
-- README.md
-- API documentation
-- Examples
-- Architecture docs
-
-**Artifacts:**
-
-- Package/build configuration
-- CI/CD configuration (if applicable)
-- Deployment guides (if applicable)
-
----
-
-## Risk Analysis
-
-**High Risks:**
-
-- [Risk 1]: [Mitigation strategy]
-- [Risk 2]: [Mitigation strategy]
-
-**Medium Risks:**
-
-- [Risk 3]: [Mitigation strategy]
-
-**Low Risks:**
-
-- [Risk 4]: [Mitigation strategy]
-
----
-
-## Future Enhancements (Post-MVP)
-
-Features intentionally deferred:
-
-- [Feature 1]: [Reason for deferral]
-- [Feature 2]: [Reason for deferral]
-- [Feature 3]: [Reason for deferral]
-
----
+```yaml
+project:
+  name: "[Project Name]"
+  language: "[Python|Go|Rust|TypeScript|etc]"
+  testing: "[pytest|go test|cargo test|jest|etc]"
+  linting: "[ruff|golangci-lint|clippy|eslint|etc]"
+  goal: "[One sentence describing the ultimate objective]"
+
+phases:
+  - id: 0
+    name: "[Phase Name]"
+    goal: "[What this phase accomplishes]"
+    success:
+      - "[Specific, measurable outcome 1]"
+      - "[Specific, measurable outcome 2]"
+      - "[Specific, measurable outcome 3]"
+      - "All tests passing"
+
+  - id: 1
+    name: "[Phase Name]"
+    goal: "[What this phase accomplishes]"
+    success:
+      - "[Specific outcome 1]"
+      - "[Specific outcome 2]"
+      - "All tests passing"
+
+  # [Continue for all phases]
+```
 
 **Ready for autonomous execution with:**
 
 ```bash
-/autonomous-dev docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.md
-```
-````
-
+/autonomous-dev docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
 ```
 
 ## Question Techniques
@@ -542,6 +350,7 @@ C) Minimal tests to validate (faster, riskier)"
 ### Good Phase Scope
 
 **Characteristics:**
+
 - Solves 1-3 related problems
 - Can be completed in 2-8 hours
 - Has clear success criteria
@@ -549,6 +358,7 @@ C) Minimal tests to validate (faster, riskier)"
 - Delivers working functionality
 
 **Example:**
+
 ```
 
 Phase 1: User Authentication
@@ -563,12 +373,14 @@ Phase 1: User Authentication
 ### Too Large (Split It)
 
 **Signs:**
+
 - Multiple unrelated features
 - Takes more than 10 hours
 - Success criteria list is too long
 - Mixes foundation with features
 
 **Example (Bad):**
+
 ```
 
 Phase 1: Build Everything
@@ -580,6 +392,7 @@ Phase 1: Build Everything
 ```
 
 **Better (Split):**
+
 ```
 
 Phase 0: Foundation (auth, database)
@@ -592,12 +405,14 @@ Phase 3: Deployment
 ### Too Small (Combine It)
 
 **Signs:**
+
 - Takes less than 1 hour
 - Trivial change
 - Not a logical unit
 - Creates unnecessary handoffs
 
 **Example (Bad):**
+
 ```
 
 Phase 1: Create user.py file
@@ -607,6 +422,7 @@ Phase 3: Add login method to User class
 ```
 
 **Better (Combined):**
+
 ```
 
 Phase 1: User Authentication Model
@@ -621,6 +437,7 @@ Phase 1: User Authentication Model
 ### Initial Pass
 
 Get basic structure:
+
 - Number of phases
 - Phase names
 - One-sentence descriptions
@@ -628,6 +445,7 @@ Get basic structure:
 ### Second Pass
 
 Add detail:
+
 - Problem statements
 - Solution approaches
 - Success criteria
@@ -635,6 +453,7 @@ Add detail:
 ### Third Pass
 
 Enrich:
+
 - Implementation details
 - Dependencies
 - Testing strategy
@@ -642,6 +461,7 @@ Enrich:
 ### Final Pass
 
 Polish:
+
 - Validate phase order
 - Check phase scope
 - Ensure clarity
@@ -652,6 +472,7 @@ Polish:
 ### Library/Package
 
 **Typical phases:**
+
 1. Core data structures/interfaces
 2. Main functionality
 3. Advanced features
@@ -661,6 +482,7 @@ Polish:
 ### Web Service/API
 
 **Typical phases:**
+
 1. Project setup and database
 2. Authentication
 3. Core endpoints
@@ -672,6 +494,7 @@ Polish:
 ### CLI Tool
 
 **Typical phases:**
+
 1. Argument parsing and configuration
 2. Core functionality
 3. Command implementations
@@ -682,6 +505,7 @@ Polish:
 ### Desktop Application
 
 **Typical phases:**
+
 1. UI framework setup
 2. Main window and layout
 3. Core features
@@ -805,13 +629,14 @@ Phase 6: Deployment configuration
 
 Sound good?
 
-````
+```
 
 ## Integration with Autonomous Development Flow
 
 **After roadmap is complete:**
 
 The roadmap is optimized for autonomous execution:
+
 - Each phase has clear problem/solution/success criteria
 - Implementation details guide the brainstorming phase
 - Success criteria become test requirements
@@ -819,9 +644,10 @@ The roadmap is optimized for autonomous execution:
 - Testing strategy informs implementation approach
 
 **User can immediately execute:**
+
 ```bash
-/autonomous-dev docs/roadmaps/YYYY-MM-DD-project-roadmap.md
-````
+/autonomous-dev docs/roadmaps/YYYY-MM-DD-project-roadmap.yml
+```
 
 **The autonomous flow will:**
 
@@ -837,31 +663,32 @@ The roadmap is optimized for autonomous execution:
 **Save roadmap to:**
 
 ```
-docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.md
+docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
 ```
 
 **Filename format:**
 
 - Date prefix: YYYY-MM-DD
 - Project name: lowercase, hyphen-separated
-- Extension: .md
+- Extension: .yml
 
 **Examples:**
 
-- `docs/roadmaps/2025-11-19-json-parser-roadmap.md`
-- `docs/roadmaps/2025-11-19-task-api-roadmap.md`
-- `docs/roadmaps/2025-11-19-cli-tool-roadmap.md`
+- `docs/roadmaps/2025-12-08-json-parser-roadmap.yml`
+- `docs/roadmaps/2025-12-08-task-api-roadmap.yml`
+- `docs/roadmaps/2025-12-08-cli-tool-roadmap.yml`
 
 ## Remember
 
+- **Output YAML format** - use valid YAML syntax with proper indentation
 - **One question at a time** during understanding phase
 - **Use multiple choice** when possible for clarity
 - **Validate incrementally** - don't wait until the end
 - **Be flexible** - adjust phases based on feedback
-- **Keep phases focused** - 1-3 objectives per phase
+- **Keep phases focused** - clear goal and specific success criteria
 - **Make it actionable** - enough detail for autonomous execution
 - **Consider the developer** - assume zero codebase context
-- **Think about testing** - every phase needs tests
-- **Plan for docs** - documentation is a deliverable
+- **Think about testing** - success criteria should include testing
+- **Streamlined structure** - goal + success criteria (no verbose problem/solution prose)
 
-The goal is to create a roadmap that the autonomous development flow can execute with confidence!
+The goal is to create a compact YAML roadmap that the autonomous development flow can execute efficiently!

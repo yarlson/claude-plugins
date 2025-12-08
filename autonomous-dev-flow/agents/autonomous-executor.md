@@ -66,32 +66,41 @@ Autonomous Executor (Main Agent):
 
 ### Input
 
-A roadmap document (markdown) with multiple phases, each containing:
+A roadmap document in YAML format containing:
 
-- Phase description/requirements
-- Problem statement
-- Solution overview
-- Success criteria
-- Implementation details
+- Project metadata (name, language, testing, linting, goal)
+- Multiple phases, each with:
+  - Phase ID
+  - Phase name
+  - Goal (what this phase accomplishes)
+  - Success criteria (list of measurable outcomes)
 
 ### Process
 
 **For each phase in the roadmap:**
 
-**1. Dispatch Phase Subagent**
+**1. Read and Parse YAML Roadmap**
+
+- Read the roadmap YAML file
+- Parse YAML structure to extract:
+  - Project metadata (language, testing, linting)
+  - Phase list with ID, name, goal, success criteria
+- Extract phase N details (goal and success criteria)
+
+**2. Dispatch Phase Subagent**
 
 Use Task tool with subagent_type='general-purpose':
 
-- Pass roadmap file path
-- Specify phase number
+- Pass phase goal and success criteria
+- Specify phase number and name
 - Instruct to complete all 3 steps (brainstorming, planning, implementation)
 - Wait for completion report
 
-**2. Phase Subagent Executes (all in one subagent):**
+**3. Phase Subagent Executes (all in one subagent):**
 
 **Step A: Autonomous Brainstorming**
 
-1. Read phase requirements from roadmap
+1. Receive phase goal and success criteria
 2. Analyze and understand problem space
 3. Evaluate multiple approaches internally
 4. Select best approach based on:
@@ -100,52 +109,53 @@ Use Task tool with subagent_type='general-purpose':
    - Testability
    - Best practices
    - Developer experience
-5. Create comprehensive design document
-6. Save to `docs/designs/YYYY-MM-DD-phase-N-<name>-design.md`
+5. Create comprehensive YAML design document
+6. Save to `docs/designs/YYYY-MM-DD-phase-N-<name>-design.yml`
 
 **Step B: Autonomous Planning**
 
-1. Read design document (created in step A)
-2. Break down into bite-sized tasks (2-5 min each)
+1. Read YAML design document (created in step A)
+2. Break down into tasks with test/impl pairs
 3. Include complete code examples
 4. Specify exact file paths
 5. Add verification steps
-6. Create detailed test-driven plan
-7. Save to `docs/plans/YYYY-MM-DD-phase-N-<name>-plan.md`
+6. Create detailed test-driven YAML plan
+7. Save to `docs/plans/YYYY-MM-DD-phase-N-<name>-plan.yml`
 
 **Step C: Autonomous Implementation**
 
-1. Read implementation plan (created in step B)
-2. For each task sequentially:
-   - Dispatch fresh task subagent
+1. Read YAML implementation plan (created in step B)
+2. Parse tasks list from YAML
+3. For each task sequentially:
+   - Extract test file/code and impl file/code
    - Follow TDD strictly (RED-GREEN-REFACTOR)
    - Enforce quality gates:
      - ✅ Code compiles
      - ✅ Linter passes
      - ✅ All tests pass
      - ✅ No regressions
-   - Commit only when all gates pass
-3. Run integration verification
-4. Generate implementation report
-5. Save to `docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md`
-6. Report back to main agent
+   - Commit only when all gates pass (use commit message from task)
+4. Run integration verification (commands from integration list)
+5. Generate implementation report
+6. Save to `docs/implementation-reports/YYYY-MM-DD-phase-N-<name>-report.md`
+7. Report back to main agent
 
-**3. Main Agent Verifies and Continues**
+**4. Main Agent Verifies and Continues**
 
 1. Verify phase subagent completed all 3 steps
-2. Verify all deliverables created (design, plan, report)
+2. Verify all deliverables created (design YAML, plan YAML, report)
 3. Output phase summary
 4. Dispatch next phase to NEW subagent
 
-**4. Repeat Until All Phases Complete**
+**5. Repeat Until All Phases Complete**
 
 ### Output
 
 For each phase:
 
-- Design document in `docs/designs/`
-- Implementation plan in `docs/plans/`
-- Implementation report in `docs/implementation-reports/`
+- Design document (YAML) in `docs/designs/`
+- Implementation plan (YAML) in `docs/plans/`
+- Implementation report (Markdown) in `docs/implementation-reports/`
 - Working, tested code
 - All commits with clear messages
 
@@ -153,17 +163,17 @@ Final output:
 
 - All phases implemented
 - All tests passing
-- Complete documentation trail
+- Complete documentation trail (YAML designs/plans)
 - Ready for review
 
 ## Invocation
 
 ### Via Agent
 
-Invoke this agent with a roadmap file path:
+Invoke this agent with a YAML roadmap file path:
 
 ```
-I need to execute the roadmap at path/to/roadmap.md autonomously.
+I need to execute the roadmap at path/to/roadmap.yml autonomously.
 ```
 
 ### Via Slash Command
@@ -171,7 +181,7 @@ I need to execute the roadmap at path/to/roadmap.md autonomously.
 Use the `/autonomous-dev` slash command:
 
 ```
-/autonomous-dev path/to/roadmap.md
+/autonomous-dev path/to/roadmap.yml
 ```
 
 ## Configuration
@@ -289,43 +299,59 @@ This agent orchestrates these skills:
 
 ### Simple Roadmap
 
-```markdown
-# Feature Roadmap
+```yaml
+project:
+  name: "Feature Implementation"
+  language: "Python"
+  testing: "pytest"
+  linting: "ruff"
+  goal: "Build core feature with testing"
 
-## Phase 0: Setup
+phases:
+  - id: 0
+    name: "Setup"
+    goal: "Create project structure and utilities"
+    success:
+      - "Directory structure created"
+      - "Basic utilities working"
+      - "Tests passing"
 
-Create project structure and utilities.
+  - id: 1
+    name: "Core Logic"
+    goal: "Implement main feature logic"
+    success:
+      - "Core feature working"
+      - "All tests passing"
 
-## Phase 1: Core Logic
-
-Implement main feature logic.
-
-## Phase 2: Integration
-
-Integrate with existing systems.
+  - id: 2
+    name: "Integration"
+    goal: "Integrate with existing systems"
+    success:
+      - "Integration complete"
+      - "All tests passing"
 ```
 
 **Execution:**
 
 ```
-/autonomous-dev roadmap.md
+/autonomous-dev roadmap.yml
 ```
 
 **Result:**
 
-- Phase 0: Design → Plan → Implement
-- Phase 1: Design → Plan → Implement
-- Phase 2: Design → Plan → Implement
+- Phase 0: Design (YAML) → Plan (YAML) → Implement
+- Phase 1: Design (YAML) → Plan (YAML) → Implement
+- Phase 2: Design (YAML) → Plan (YAML) → Implement
 - All phases complete, tested, documented
 
 ### Complex Roadmap
 
-For roadmaps with detailed phases (like the Yar bootstrap roadmap), the agent:
+For roadmaps with multiple detailed phases, the agent:
 
-1. Reads each phase section
-2. Extracts requirements and specifications
-3. Creates comprehensive design
-4. Builds detailed plan
+1. Parses YAML roadmap structure
+2. Extracts phase goal and success criteria
+3. Creates comprehensive YAML design
+4. Builds detailed YAML plan
 5. Implements with quality gates
 6. Proceeds to next phase
 
@@ -387,17 +413,17 @@ Agent verifies at multiple levels:
 project/
 ├── docs/
 │   ├── designs/
-│   │   ├── 2025-11-19-phase-0-setup-design.md
-│   │   ├── 2025-11-19-phase-1-core-design.md
-│   │   └── 2025-11-19-phase-2-integration-design.md
+│   │   ├── 2025-12-08-phase-0-setup-design.yml
+│   │   ├── 2025-12-08-phase-1-core-design.yml
+│   │   └── 2025-12-08-phase-2-integration-design.yml
 │   ├── plans/
-│   │   ├── 2025-11-19-phase-0-setup-plan.md
-│   │   ├── 2025-11-19-phase-1-core-plan.md
-│   │   └── 2025-11-19-phase-2-integration-plan.md
+│   │   ├── 2025-12-08-phase-0-setup-plan.yml
+│   │   ├── 2025-12-08-phase-1-core-plan.yml
+│   │   └── 2025-12-08-phase-2-integration-plan.yml
 │   └── implementation-reports/
-│       ├── 2025-11-19-phase-0-setup-report.md
-│       ├── 2025-11-19-phase-1-core-report.md
-│       └── 2025-11-19-phase-2-integration-report.md
+│       ├── 2025-12-08-phase-0-setup-report.md
+│       ├── 2025-12-08-phase-1-core-report.md
+│       └── 2025-12-08-phase-2-integration-report.md
 └── src/
     └── [implemented code]
 ```

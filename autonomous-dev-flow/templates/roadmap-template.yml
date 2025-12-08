@@ -1,0 +1,65 @@
+# Roadmap Template
+# Save as: docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
+# Execute with: /autonomous-dev docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
+
+project:
+  name: "[Project Name]"
+  language: "[Python|Go|Rust|TypeScript|Java|etc]"
+  testing: "[pytest|go test|cargo test|jest|junit|etc]"
+  linting: "[ruff|golangci-lint|clippy|eslint|checkstyle|etc]"
+  goal: "[One sentence describing the ultimate project objective]"
+
+phases:
+  # Phase 0: Foundation/Setup (typically first phase)
+  - id: 0
+    name: "Foundation"
+    goal: "[What this phase accomplishes - be concise]"
+    success:
+      - "[Specific, measurable outcome 1]"
+      - "[Specific, measurable outcome 2]"
+      - "[Specific, measurable outcome 3]"
+      - "All tests passing"
+
+  # Phase 1: Core Feature
+  - id: 1
+    name: "[Phase Name]"
+    goal: "[What this phase builds, building on Phase 0]"
+    success:
+      - "[Specific outcome 1]"
+      - "[Specific outcome 2]"
+      - "[Specific outcome 3]"
+      - "Integration with Phase 0 working"
+      - "All tests passing"
+
+  # Phase 2: Additional Feature
+  - id: 2
+    name: "[Phase Name]"
+    goal: "[What this phase adds]"
+    success:
+      - "[Specific outcome 1]"
+      - "[Specific outcome 2]"
+      - "All tests passing"
+
+  # Phase N: Documentation/Polish (typically final phase)
+  - id: 3
+    name: "Documentation"
+    goal: "Complete documentation and examples"
+    success:
+      - "README with installation and usage"
+      - "API documentation complete"
+      - "Usage examples provided"
+      - "All code documented"
+# Template Usage Instructions:
+# 1. Replace all [placeholders] with actual content
+# 2. Keep phases sequential (0, 1, 2, ...)
+# 3. Each phase should build on previous phases
+# 4. Success criteria should be specific and measurable
+# 5. Each phase should be achievable in 2-8 hours
+# 6. Remove these instructions before using
+
+# Example success criteria:
+# Good: "Calculator.add() method works for positive and negative numbers"
+# Bad: "Calculator works"
+#
+# Good: "Parser handles expressions with parentheses correctly"
+# Bad: "Add parser"

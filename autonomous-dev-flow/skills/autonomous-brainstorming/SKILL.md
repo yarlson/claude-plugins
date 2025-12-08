@@ -2,7 +2,7 @@
 name: Autonomous Brainstorming
 description: Transform rough requirements into fully-formed designs autonomously, making informed decisions based on best practices and DX principles
 when_to_use: when you need to refine requirements into a design document without user interaction
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Autonomous Brainstorming
@@ -13,7 +13,7 @@ Transform requirements into fully-formed designs through autonomous analysis and
 
 **Core principle:** Analyze requirements, explore alternatives internally, select the best approach, document comprehensively.
 
-**Output:** A design document saved to `docs/designs/YYYY-MM-DD-<feature-name>-design.md`
+**Output:** A design document in YAML format saved to `docs/designs/YYYY-MM-DD-<feature-name>-design.yml`
 
 ## The Process
 
@@ -47,64 +47,62 @@ For each approach, consider:
 
 ### Phase 3: Design Document Creation
 
-Create comprehensive design document with:
+Create comprehensive YAML design document with the following structure:
 
-**1. Overview**
+**Meta Information:**
 
-- Problem statement
-- Goals and non-goals
-- Success criteria
+- `meta.phase`: Phase number
+- `meta.name`: Phase name
+- `meta.created`: Current date (YYYY-MM-DD)
 
-**2. Architecture**
+**Goal:**
 
-- High-level architecture (2-3 paragraphs)
-- Key components and their responsibilities
-- Data flow and interactions
-- Technology choices and rationale
+- One sentence describing what this phase accomplishes
 
-**3. Design Decisions**
+**Architecture:**
 
-- Major decisions made
-- Alternatives considered and why rejected
-- Trade-offs accepted
+- High-level architecture (2-3 paragraphs as multi-line string)
+- Component relationships, data flow, key patterns
 
-**4. Component Details**
+**Decisions:**
 
-- For each major component:
-  - Purpose and responsibilities
-  - Interfaces/APIs
-  - Data structures
-  - Dependencies
+- List of architecture/technology decisions
+- Each decision includes:
+  - `choice`: What was chosen
+  - `rationale`: Why this choice was made
+  - `alternatives`: List of options considered and rejected
+    - `option`: Alternative considered
+    - `rejected`: Why it was rejected
 
-**5. Error Handling**
+**Components:**
 
-- Error scenarios
-- Recovery strategies
-- User-facing error messages
+- List of major components
+- Each component includes:
+  - `name`: Component name
+  - `purpose`: What it does
+  - `interface`: List of method signatures
+  - `dependencies`: List of other components it depends on
 
-**6. Testing Strategy**
+**Error Handling:**
 
-- Unit test approach
-- Integration test approach
-- Edge cases to cover
+- List of error scenarios
+- Each includes:
+  - `scenario`: What error can occur
+  - `strategy`: How to handle it
 
-**7. Implementation Considerations**
+**Testing:**
 
-- Potential challenges
-- Areas needing special attention
-- Dependencies on other systems
-
-**8. Future Enhancements**
-
-- Features intentionally deferred
-- Extension points
-- Migration considerations
+- `unit`: Unit testing approach (string)
+- `integration`: Integration testing approach (string)
+- `edge_cases`: List of edge cases to cover
 
 ### Phase 4: Save Design Document
 
-Save to: `docs/designs/YYYY-MM-DD-<feature-name>-design.md`
+Save to: `docs/designs/YYYY-MM-DD-<feature-name>-design.yml`
 
 Use clear, descriptive feature name (lowercase, hyphen-separated).
+
+**IMPORTANT:** Output as valid YAML. Use pipe (`|`) for multi-line strings (architecture section). Proper indentation (2 spaces).
 
 ## Design Principles to Apply
 
@@ -162,13 +160,57 @@ When choosing between alternatives:
 
 ## Output Format
 
-Design document should be:
+Design document must be valid YAML with:
 
-- Clear and concise
-- Well-structured with clear sections
-- Detailed enough for implementation
-- Including code examples where helpful
-- Referencing existing patterns in the codebase
+- Proper indentation (2 spaces per level)
+- Multi-line strings using pipe (`|`) syntax for architecture section
+- Lists using dash (`-`) syntax
+- Nested structures for decisions and components
+- Clear, concise content (no verbose prose)
+
+**Example YAML structure:**
+
+```yaml
+meta:
+  phase: 0
+  name: "Foundation"
+  created: "2025-12-08"
+
+goal: "Set up project structure and basic utilities"
+
+architecture: |
+  This phase uses a layered architecture with three components:
+  FileManager, ConfigParser, and Logger.
+
+  Data flows from config files through ConfigParser to FileManager
+  for setup, with Logger tracking all operations.
+
+decisions:
+  - choice: "Use YAML for config"
+    rationale: "Human-readable, supports nested structures"
+    alternatives:
+      - option: "JSON"
+        rejected: "Less readable, no comments"
+
+components:
+  - name: "FileManager"
+    purpose: "Handle file operations"
+    interface:
+      - "create_dir(path: str) -> bool"
+      - "write_file(path: str, content: str) -> None"
+    dependencies: ["Logger"]
+
+error_handling:
+  - scenario: "Directory already exists"
+    strategy: "Skip creation, log warning"
+
+testing:
+  unit: "Test each component method with mocks"
+  integration: "Test full setup workflow end-to-end"
+  edge_cases:
+    - "Empty paths"
+    - "Permission errors"
+```
 
 ## Integration with Next Phase
 

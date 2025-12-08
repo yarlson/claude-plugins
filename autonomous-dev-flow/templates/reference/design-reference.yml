@@ -1,0 +1,76 @@
+# Design Document Reference
+# This file is for reference only - design documents are generated automatically
+# by the autonomous-brainstorming phase
+
+meta:
+  phase: 0
+  name: "Foundation"
+  created: "2025-12-08"
+
+goal: "One sentence describing what this phase accomplishes"
+
+architecture: |
+  2-3 paragraphs describing the high-level architecture.
+
+  Cover: component relationships, data flow, key patterns.
+
+  Example: "This phase implements a layered architecture with three main components:
+  Parser, Calculator, and Formatter. Data flows from user input through Parser to
+  Calculator for computation, then to Formatter for output. We use the Strategy
+  pattern for operations to enable easy extension."
+
+decisions:
+  - choice: "Use SQLite for storage"
+    rationale: "Simple, embedded, zero-config, sufficient for MVP requirements"
+    alternatives:
+      - option: "PostgreSQL"
+        rejected: "Overkill for MVP, requires separate server, deployment complexity"
+      - option: "In-memory storage"
+        rejected: "Data not persisted between sessions, user requirement is persistence"
+
+  - choice: "MVC pattern"
+    rationale: "Clear separation of concerns, improved testability, familiar pattern"
+    alternatives:
+      - option: "Monolithic structure"
+        rejected: "Hard to test, poor separation, maintenance issues"
+
+components:
+  - name: "Calculator"
+    purpose: "Core arithmetic operations on numbers"
+    interface:
+      - "add(a: float, b: float) -> float"
+      - "subtract(a: float, b: float) -> float"
+      - "multiply(a: float, b: float) -> float"
+      - "divide(a: float, b: float) -> float"
+    dependencies: []
+
+  - name: "Parser"
+    purpose: "Parse expression strings into operation sequences"
+    interface:
+      - "parse(expression: str) -> AST"
+    dependencies: ["Calculator"]
+
+  - name: "Formatter"
+    purpose: "Format calculation results for display"
+    interface:
+      - "format(result: float, precision: int) -> str"
+    dependencies: []
+
+error_handling:
+  - scenario: "Division by zero"
+    strategy: "Raise ZeroDivisionError with message 'Cannot divide by zero'"
+
+  - scenario: "Invalid expression syntax"
+    strategy: "Raise ValueError with parsing context showing error location"
+
+  - scenario: "Unsupported operation"
+    strategy: "Raise NotImplementedError with list of supported operations"
+
+testing:
+  unit: "Test each component method in isolation with mocks for dependencies"
+  integration: "Test Calculator + Parser + Formatter workflow end-to-end with real data"
+  edge_cases:
+    - "Empty inputs and empty strings"
+    - "None/null values"
+    - "Boundary conditions (very large/small numbers, MAX_INT)"
+    - "Special float values (inf, -inf, NaN)"
