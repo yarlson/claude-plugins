@@ -16,14 +16,17 @@ Ask questions one at a time. Use AskUserQuestion tool with clear options.
 ### Questions Sequence
 
 **1. Project name?**
+
 - Free text input
 - Example: "Calculator CLI"
 
 **2. Programming language?**
+
 - Options: Python, Go, Rust, TypeScript, Java, Other
 - If Other: ask for specific language
 
 **3. Test command?**
+
 - Show common options for selected language:
   - Python: `pytest tests/ -v`
   - Go: `go test ./... -race -cover`
@@ -33,6 +36,7 @@ Ask questions one at a time. Use AskUserQuestion tool with clear options.
 - Allow custom command
 
 **4. Lint command?**
+
 - Show common options for selected language:
   - Python: `ruff check .` or `pylint`
   - Go: `golangci-lint run ./...`
@@ -42,10 +46,12 @@ Ask questions one at a time. Use AskUserQuestion tool with clear options.
 - Allow custom command
 
 **5. One-sentence project goal?**
+
 - Free text input
 - Example: "Build a command-line calculator with expression parsing"
 
 **6. How many phases?**
+
 - Options: 2, 3, 4, 5, 6, More than 6
 - Recommend: 3-6 phases for most projects
 
@@ -63,6 +69,7 @@ After gathering all info, create roadmap at:
 `docs/roadmaps/[YYYY-MM-DD]-[project-name-slug]-roadmap.yml`
 
 Format:
+
 ```yaml
 proj:
   name: "[Project Name]"
@@ -91,6 +98,7 @@ phases:
 ### Validate Roadmap
 
 Check:
+
 - All required fields present
 - Phase IDs sequential (0, 1, 2, ...)
 - Each phase has 2-4 success criteria
@@ -99,6 +107,7 @@ Check:
 ### Output
 
 Display:
+
 ```
 ✅ Roadmap created: docs/roadmaps/[filename]
 
@@ -116,16 +125,19 @@ cat docs/roadmaps/[filename]
 ## Tips for Good Roadmaps
 
 **Phase granularity:**
+
 - Each phase: 2-8 hours of work
 - Too small: overhead of phase management
 - Too large: hard to review, risky
 
 **Success criteria:**
+
 - Specific and measurable
 - Testable (can verify with command)
 - Clear definition of done
 
 **Phase sequencing:**
+
 - Foundation first (structure, utilities)
 - Core features next (main functionality)
 - Integration/polish last (CLI, API, docs)
@@ -133,11 +145,13 @@ cat docs/roadmaps/[filename]
 **Examples:**
 
 Good success criteria:
+
 - "Calculator.add() returns correct sum"
 - "Parser handles nested parentheses"
 - "CLI prints result to stdout"
 
 Bad success criteria:
+
 - "Code is good" (not measurable)
 - "Everything works" (not specific)
 - "Ready for production" (ambiguous)

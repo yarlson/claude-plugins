@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Major architectural overhaul for 90% token reduction.**
 
 #### Removed
+
 - ❌ `skills/autonomous-brainstorming/` - Deleted
 - ❌ `skills/autonomous-planning/` - Deleted
 - ❌ `skills/autonomous-implementation/` - Deleted
@@ -19,12 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ❌ Plan document generation (`.yml` in `docs/plans/`)
 
 #### Added
+
 - ✅ `skills/autonomous-phase-execution/` - Unified skill (replaces 3 skills)
 - ✅ Minimal handoff documents (`.yml` in `docs/handoffs/`) - 50-100 tokens each
 - ✅ Code review integration after each phase (superpowers:code-reviewer)
 - ✅ Enhanced commit message requirements (context in commits)
 
 #### Changed
+
 - 🔄 Roadmap schema: `project:` → `proj:` (minor change, backward compatible)
 - 🔄 Main executor agent: Added code review dispatch logic
 - 🔄 Roadmap builder skill: Simplified, more concise
@@ -34,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **For existing roadmaps:**
 
 Minor schema change only:
+
 ```yaml
 # v1.0.0
 project:
@@ -65,12 +69,14 @@ Use `/build-roadmap` or copy `templates/roadmap-template.yml`.
 ### Architecture Changes
 
 **Ephemeral execution model:**
+
 - Design thinking happens internally (not saved)
 - Planning happens internally (not saved)
 - Implementation produces code + minimal handoff
 - Next phase reads code directly (self-documenting)
 
 **Code review gates:**
+
 - Automated review after each phase
 - Requires superpowers plugin (optional)
 - Fix loop with up to 3 review cycles
@@ -81,17 +87,20 @@ Use `/build-roadmap` or copy `templates/roadmap-template.yml`.
 **Generated artifacts:**
 
 v1.0.0:
+
 ```
 docs/designs/      # 1,500 tokens each
 docs/plans/        # 2,500 tokens each
 ```
 
 v3.0.0:
+
 ```
 docs/handoffs/     # 50-100 tokens each
 ```
 
 **Code is documentation:**
+
 - Read actual code files for implementation details
 - Tests document expected behavior
 - Commit messages capture design rationale

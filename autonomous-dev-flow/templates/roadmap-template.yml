@@ -3,9 +3,9 @@
 
 proj:
   name: "Your Project Name"
-  lang: "Python"  # Python|Go|Rust|TypeScript|Java
-  test: "pytest tests/ -v"  # Test command
-  lint: "ruff check ."       # Lint command
+  lang: "Python" # Python|Go|Rust|TypeScript|Java
+  test: "pytest tests/ -v" # Test command
+  lint: "ruff check ." # Lint command
   goal: "One-sentence project objective"
 
 phases:

@@ -15,6 +15,7 @@ Execute multi-phase roadmaps autonomously with code review gates.
 ## Execution Model
 
 For each phase in roadmap:
+
 1. Dispatch phase execution subagent
 2. Wait for handoff document
 3. Dispatch code review subagent
@@ -26,15 +27,18 @@ For each phase in roadmap:
 ### 1. Parse Roadmap
 
 Read roadmap YAML file:
+
 - Project metadata (name, lang, test, lint, goal)
 - Phases list (id, name, goal, success)
 
 Validate required fields exist:
+
 - `proj.name`, `proj.lang`, `proj.test`, `proj.lint`
 - `phases` array with at least one phase
 - Each phase has: `id`, `name`, `goal`, `success`
 
 If invalid:
+
 - Report schema error
 - Halt execution
 - Suggest fix
@@ -76,23 +80,27 @@ Wait for subagent completion.
 #### 2b. Verify Phase Completion
 
 Check:
+
 - Handoff exists at `docs/handoffs/phase-[N]-handoff.yml`
 - Handoff is valid YAML
 - Handoff has required fields: `built`, `api`, `patterns`
 - Git commits created (at least one)
 
 If verification fails:
+
 - Report issue
 - Halt execution
 
 #### 2c. Get Changed Files
 
 Identify files changed in phase N:
+
 ```bash
 git log --name-only --pretty=format: HEAD~[commits-in-phase]..HEAD | sort -u
 ```
 
 Or simpler:
+
 ```bash
 git diff --name-only [phase-start-sha]..HEAD
 ```
@@ -100,6 +108,7 @@ git diff --name-only [phase-start-sha]..HEAD
 #### 2d. Dispatch Code Review Subagent
 
 Check if superpowers:code-reviewer available:
+
 - If available: dispatch review
 - If not available: log warning, skip review, continue
 
@@ -130,6 +139,7 @@ Wait for review completion.
 If review identifies issues:
 
 1. Dispatch fix subagent:
+
    ```
    Fix Phase [N] review issues
 
@@ -155,6 +165,7 @@ If review identifies issues:
    - Report for manual intervention
 
 If review approves:
+
 - Log approval
 - Continue to next phase
 
@@ -164,6 +175,7 @@ After all phases complete, create implementation report at:
 `docs/implementation-reports/[date]-[roadmap-name]-report.md`
 
 Include:
+
 - Roadmap name and goal
 - Phases completed (count)
 - Total commits created
@@ -178,6 +190,7 @@ Include:
 ### Phase Execution Failure
 
 If phase execution fails:
+
 ```
 Phase [N] execution failed.
 
@@ -196,6 +209,7 @@ Manual intervention required.
 ### Code Review Unavailable
 
 If superpowers:code-reviewer not found:
+
 ```
 ⚠️  Code review skipped (superpowers plugin not available)
 
@@ -209,6 +223,7 @@ Proceeding to next phase.
 ### Invalid Roadmap
 
 If roadmap YAML invalid:
+
 ```
 Invalid roadmap.yml
 
@@ -233,6 +248,7 @@ See template: templates/roadmap-template.yml
 ## Subagent Context Isolation
 
 Each phase subagent:
+
 - Starts with fresh context
 - Receives only: goal + success + context + previous handoff
 - Reads code files on-demand (uses Read tool)
@@ -243,6 +259,7 @@ This prevents context overflow and keeps execution focused.
 ## Quality Assurance
 
 Every phase must pass:
+
 - ✅ Phase execution quality gates (compile, lint, test)
 - ✅ Code review (if available)
 - ✅ Success criteria met

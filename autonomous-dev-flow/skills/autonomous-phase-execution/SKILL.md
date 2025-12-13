@@ -12,6 +12,7 @@ Execute one roadmap phase: think → plan → implement → handoff.
 ## Input
 
 Receives from main executor:
+
 - Phase goal (one sentence)
 - Success criteria (list of outcomes)
 - Project context (language, test command, lint command)
@@ -22,12 +23,14 @@ Receives from main executor:
 ### Step 1: Think (Internal - Not Saved)
 
 Evaluate 2-3 architecture approaches internally:
+
 - List components needed
 - Consider patterns (MVC, Repository, Factory, etc.)
 - Pick simplest that meets requirements
 - Decision time: 2 minutes max per choice
 
 Use decision framework:
+
 - Prefer standard patterns over novel
 - Prefer simple over complex
 - Prefer loose coupling
@@ -36,6 +39,7 @@ Use decision framework:
 ### Step 2: Plan (Internal - Not Saved)
 
 Break phase into TDD task pairs:
+
 - Each task: one test file + one impl file
 - Sequence tasks logically (dependencies first)
 - Estimate: 2-5 minutes per task
@@ -74,6 +78,7 @@ For each task in sequence:
 6. **Commit**
    - Stage test and impl files
    - Commit with descriptive message:
+
      ```
      feat: [component/feature name]
 
@@ -86,6 +91,7 @@ For each task in sequence:
 ### Step 4: Verify Success Criteria
 
 After all tasks:
+
 - Check each success criterion from roadmap
 - Run integration tests if specified
 - Verify all quality gates pass
@@ -103,6 +109,7 @@ patterns: [MVC, Repository]
 ```
 
 Include:
+
 - `built`: List of components/modules created (names only)
 - `api`: Key public interfaces (function signatures)
 - `patterns`: Architectural patterns used
@@ -112,12 +119,14 @@ Keep handoff minimal: 50-100 tokens.
 ## Quality Gates (Non-Negotiable)
 
 Before any commit, ALL must pass:
+
 - ✅ Code compiles (no errors)
 - ✅ Linter passes (zero issues)
 - ✅ All tests pass (zero failures)
 - ✅ No regressions (existing tests still pass)
 
 If any gate fails:
+
 - Fix immediately
 - Re-run all gates
 - Never commit broken code
@@ -125,26 +134,31 @@ If any gate fails:
 ## Language-Specific Commands
 
 **Python:**
+
 - Test: `pytest tests/ -v`
 - Lint: `ruff check . && mypy .`
 - Build: N/A (interpreted)
 
 **Go:**
+
 - Test: `go test ./... -race -cover`
 - Lint: `golangci-lint run ./...`
 - Build: `go build ./...`
 
 **Rust:**
+
 - Test: `cargo test`
 - Lint: `cargo clippy --all-targets`
 - Build: `cargo build`
 
 **TypeScript:**
+
 - Test: `npm test`
 - Lint: `eslint . && tsc --noEmit`
 - Build: `tsc`
 
 **Java:**
+
 - Test: `mvn test` or `gradle test`
 - Lint: `mvn checkstyle:check`
 - Build: `mvn compile`
@@ -152,6 +166,7 @@ If any gate fails:
 ## Decision Framework
 
 When choosing architecture/technology:
+
 1. Simplest solution that meets requirements
 2. Well-known patterns (MVC, Repository, Factory)
 3. Standard libraries over custom
@@ -159,6 +174,7 @@ When choosing architecture/technology:
 5. If unclear: pick most common approach
 
 Avoid:
+
 - Over-engineering
 - Premature optimization
 - Novel architectures
@@ -166,6 +182,7 @@ Avoid:
 - Magic behavior
 
 Prefer:
+
 - Simple and clear
 - Easy to test
 - Standard patterns
@@ -175,11 +192,13 @@ Prefer:
 ## Error Handling
 
 If quality gate fails after 3 fix attempts:
+
 - Document blocker
 - Report to main executor
 - Do not proceed to next task
 
 If success criteria not met:
+
 - Document gap
 - Report to main executor
 - Do not output handoff
@@ -187,6 +206,7 @@ If success criteria not met:
 ## Output Summary
 
 After completion, report:
+
 - Components created
 - Tests added (count and passing)
 - Commits created (count and SHAs)

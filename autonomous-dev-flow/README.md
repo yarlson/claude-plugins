@@ -129,6 +129,7 @@ tests/                                 # Your tests
 ```
 
 Handoffs are minimal (50-100 tokens) and contain:
+
 - Components created
 - Key API signatures
 - Architectural patterns used
@@ -261,6 +262,7 @@ The plugin includes two skills:
 ### Code Review Integration
 
 After each phase, automated code review runs (requires superpowers plugin):
+
 - Reviews all code changes from phase
 - Identifies architecture issues, missing tests, etc.
 - Provides specific feedback

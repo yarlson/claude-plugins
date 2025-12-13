@@ -12,11 +12,11 @@ This repository serves as a plugin marketplace for Claude Code, providing easy a
 
 ### Autonomous Development Flow
 
-**Version:** 1.0.0
+**Version:** 3.0.0
 **Category:** Productivity
 **License:** MIT
 
-Autonomous multi-phase development workflow that executes roadmaps through brainstorming, planning, and implementation phases without user interaction.
+Autonomous multi-phase development with ephemeral execution - 90% token reduction via minimal handoffs. Transform YAML roadmaps into fully implemented, tested features without user interaction.
 
 **Features:**
 
@@ -25,7 +25,8 @@ Autonomous multi-phase development workflow that executes roadmaps through brain
 - 🎯 **Sequential Phase Management** - Execute phases one at a time with quality gates
 - ✅ **Quality Gates** - Enforces compilation, linting, testing before commits
 - 🧪 **Test-Driven Development** - Strict TDD (RED-GREEN-REFACTOR) workflow
-- 📚 **Comprehensive Documentation** - Auto-generates designs, plans, and reports
+- ⚡ **Ephemeral Execution** - 90% token reduction via minimal handoffs (31K → 3.1K tokens)
+- 🔍 **Code Review Integration** - Automated review after each phase (requires superpowers plugin)
 - 🏗️ **Best Practices** - SOLID, DRY, YAGNI principles enforced automatically
 - 🌐 **Language Agnostic** - Supports Go, Python, Rust, TypeScript, Java, and more
 
@@ -34,12 +35,18 @@ Autonomous multi-phase development workflow that executes roadmaps through brain
 - `/build-roadmap` - Interactive roadmap creation
 - `/autonomous-dev <roadmap>` - Execute roadmap autonomously
 
+**Key Changes in v3.0.0:**
+
+- Ephemeral execution model (design/planning happens internally, not saved)
+- 90% token reduction (31K → 3.1K tokens for 6-phase roadmap)
+- Minimal handoff documents (50-100 tokens each, down from 4,000)
+- Code review integration after each phase
+- Self-documenting code approach (code is the documentation)
+
 **Documentation:**
 
 - [Full README](./autonomous-dev-flow/README.md)
-- [Quick Start Guide](./autonomous-dev-flow/QUICKSTART.md)
-- [Roadmap Building Guide](./autonomous-dev-flow/ROADMAP-GUIDE.md)
-- [Installation Guide](./autonomous-dev-flow/INSTALLATION.md)
+- [Changelog](./autonomous-dev-flow/CHANGELOG.md)
 
 ### Agent Handoff Documentation
 
@@ -123,6 +130,15 @@ claude-plugins/
 │   ├── skills/
 │   ├── templates/
 │   ├── examples/
+│   ├── README.md
+│   ├── CHANGELOG.md
+│   └── LICENSE
+├── agent-handoff/                 # Plugin: Agent Handoff Documentation
+│   ├── .claude-plugin/
+│   │   └── plugin.json
+│   ├── commands/
+│   ├── agents/
+│   ├── skills/
 │   └── [documentation files]
 └── README.md                      # This file
 ```
@@ -346,18 +362,33 @@ Contributions are welcome! To contribute:
 
 ## Version History
 
-### Marketplace Version 1.0.0 (2025-11-19)
+### Marketplace Version 1.0.0
 
-**Added:**
+**Latest Plugin Versions:**
 
-- Initial marketplace setup
+- **Autonomous Development Flow v3.0.0** (2025-12-13)
+  - Major architectural overhaul for 90% token reduction
+  - Ephemeral execution model
+  - Code review integration
+  - Minimal handoff documents (50-100 tokens each)
+
+- **Agent Handoff v1.0.0** (2025-11-19)
+  - Initial release
+  - Generate comprehensive handoff documentation
+  - Zero configuration, fully autonomous
+
+**Initial Release** (2025-11-19):
+
+- Marketplace setup
 - Autonomous Development Flow plugin v1.0.0
+- Agent Handoff plugin v1.0.0
 
 ## License
 
 Each plugin has its own license. Check the plugin's LICENSE file for details.
 
 - **Autonomous Development Flow**: MIT License
+- **Agent Handoff**: MIT License
 
 ## Links
 
