@@ -1,9 +1,9 @@
 {
   "name": "autonomous-dev-flow",
-  "version": "1.0.1",
-  "description": "Autonomous multi-phase development workflow that executes roadmaps through brainstorming, planning, and implementation phases without user interaction",
+  "version": "3.0.0",
+  "description": "Autonomous multi-phase development with ephemeral execution - 90% token reduction via minimal handoffs",
   "author": {
-    "name": "Yaroslav K"
+    "name": "Yar Kravtsov"
   },
   "homepage": "https://github.com/yarlson/claude-plugins",
   "license": "MIT",
@@ -16,6 +16,8 @@
     "roadmap",
     "tdd",
     "quality-gates",
-    "best-practices"
+    "best-practices",
+    "ephemeral",
+    "token-optimized"
   ]
 }

@@ -1,65 +1,52 @@
-# Roadmap Template
-# Save as: docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
-# Execute with: /autonomous-dev docs/roadmaps/YYYY-MM-DD-<project-name>-roadmap.yml
+# Roadmap Template for Autonomous Development
+# Complete this template and execute with: /autonomous-dev path/to/roadmap.yml
 
-project:
-  name: "[Project Name]"
-  language: "[Python|Go|Rust|TypeScript|Java|etc]"
-  testing: "[pytest|go test|cargo test|jest|junit|etc]"
-  linting: "[ruff|golangci-lint|clippy|eslint|checkstyle|etc]"
-  goal: "[One sentence describing the ultimate project objective]"
+proj:
+  name: "Your Project Name"
+  lang: "Python"  # Python|Go|Rust|TypeScript|Java
+  test: "pytest tests/ -v"  # Test command
+  lint: "ruff check ."       # Lint command
+  goal: "One-sentence project objective"
 
 phases:
-  # Phase 0: Foundation/Setup (typically first phase)
+  # Phase 0: Foundation (structure, basic utilities)
   - id: 0
     name: "Foundation"
-    goal: "[What this phase accomplishes - be concise]"
+    goal: "Create project structure and basic utilities"
     success:
-      - "[Specific, measurable outcome 1]"
-      - "[Specific, measurable outcome 2]"
-      - "[Specific, measurable outcome 3]"
-      - "All tests passing"
+      - "Directory structure exists"
+      - "Basic utilities work"
+      - "Tests pass"
 
-  # Phase 1: Core Feature
+  # Phase 1: Core Feature (main functionality)
   - id: 1
-    name: "[Phase Name]"
-    goal: "[What this phase builds, building on Phase 0]"
+    name: "Core Feature"
+    goal: "Implement main feature logic"
     success:
-      - "[Specific outcome 1]"
-      - "[Specific outcome 2]"
-      - "[Specific outcome 3]"
-      - "Integration with Phase 0 working"
-      - "All tests passing"
+      - "Core component works"
+      - "Feature handles basic cases"
+      - "Tests pass"
 
-  # Phase 2: Additional Feature
+  # Phase 2: Extension (additional features)
   - id: 2
-    name: "[Phase Name]"
-    goal: "[What this phase adds]"
+    name: "Extension"
+    goal: "Add extended functionality"
     success:
-      - "[Specific outcome 1]"
-      - "[Specific outcome 2]"
-      - "All tests passing"
+      - "Extended features work"
+      - "Integrates with core"
+      - "Tests pass"
 
-  # Phase N: Documentation/Polish (typically final phase)
+  # Phase 3: Integration (CLI, API, etc.)
   - id: 3
-    name: "Documentation"
-    goal: "Complete documentation and examples"
+    name: "Integration"
+    goal: "Create user-facing interface"
     success:
-      - "README with installation and usage"
-      - "API documentation complete"
-      - "Usage examples provided"
-      - "All code documented"
-# Template Usage Instructions:
-# 1. Replace all [placeholders] with actual content
-# 2. Keep phases sequential (0, 1, 2, ...)
-# 3. Each phase should build on previous phases
-# 4. Success criteria should be specific and measurable
-# 5. Each phase should be achievable in 2-8 hours
-# 6. Remove these instructions before using
+      - "Interface works end-to-end"
+      - "Error handling complete"
+      - "Tests pass"
 
-# Example success criteria:
-# Good: "Calculator.add() method works for positive and negative numbers"
-# Bad: "Calculator works"
-#
-# Good: "Parser handles expressions with parentheses correctly"
-# Bad: "Add parser"
+# Tips:
+# - Each phase: 2-8 hours of work
+# - Success criteria: specific and measurable
+# - Sequence: foundation → core → extension → integration
+# - Keep phases focused (single responsibility)

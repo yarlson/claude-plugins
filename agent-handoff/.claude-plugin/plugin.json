@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Generate comprehensive handoff documentation optimized for AI agent takeover",
   "author": {
-    "name": "Yaroslav K"
+    "name": "Yar Kravtsov"
   },
   "homepage": "https://github.com/yarlson/claude-plugins",
   "license": "MIT",

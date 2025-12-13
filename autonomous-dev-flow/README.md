@@ -1,16 +1,17 @@
 # Autonomous Development Flow Plugin
 
-A Claude Code plugin that enables autonomous execution of multi-phase development roadmaps. Transform YAML roadmap documents into fully implemented, tested features through automatic brainstorming, planning, and implementation phases—without user interaction.
+A Claude Code plugin that enables autonomous execution of multi-phase development roadmaps. Transform YAML roadmap documents into fully implemented, tested features through ephemeral execution with minimal handoffs—without user interaction.
 
 ## Overview
 
-This plugin orchestrates three autonomous phases for each phase in your roadmap:
+This plugin uses ephemeral execution for each phase in your roadmap:
 
-1. **Brainstorming** → Design document with architecture decisions
-2. **Planning** → Detailed implementation plan with bite-sized tasks
-3. **Implementation** → Working, tested code with quality gates
+1. **Think** (internal) → Architecture decisions not saved
+2. **Plan** (internal) → Task breakdown not saved
+3. **Implement** → Working, tested code with TDD
+4. **Output** → Minimal handoff (50-100 tokens)
 
-Perfect for executing well-defined roadmaps while maintaining high code quality and comprehensive documentation.
+Perfect for executing well-defined roadmaps while achieving 90% token reduction through ephemeral thinking and minimal documentation.
 
 ## Features
 
@@ -18,8 +19,8 @@ Perfect for executing well-defined roadmaps while maintaining high code quality 
 - ✅ **Sequential Phase Management** - Phases execute one at a time in order
 - ✅ **Quality Gates** - Enforces compilation, linting, and testing before commits
 - ✅ **Test-Driven Development** - Strict TDD (RED-GREEN-REFACTOR) for all code
-- ✅ **Compact YAML Format** - 60-70% token reduction vs verbose markdown
-- ✅ **Comprehensive Documentation** - Generates design docs, plans, and reports
+- ✅ **Ephemeral Execution** - 90% token reduction via minimal handoffs
+- ✅ **Code Review Integration** - Automated review after each phase (requires superpowers plugin)
 - ✅ **Best Practices** - Applies SOLID, DRY, YAGNI principles automatically
 - ✅ **Language Agnostic** - Supports Go, Python, Rust, TypeScript, Java, and more
 
@@ -72,11 +73,11 @@ This will autonomously execute all phases: design → plan → implement for eac
 Your roadmap document should be in YAML format with project metadata and phases:
 
 ```yaml
-project:
+proj:
   name: "Project Name"
-  language: "Python"
-  testing: "pytest"
-  linting: "ruff"
+  lang: "Python"
+  test: "pytest tests/ -v"
+  lint: "ruff check ."
   goal: "One sentence project objective"
 
 phases:
@@ -114,59 +115,47 @@ The plugin will:
 
 ### What Gets Generated
 
-For each phase, the plugin creates:
+For each phase:
 
 ```
 docs/
-├── designs/
-│   └── YYYY-MM-DD-phase-N-<name>-design.yml
-├── plans/
-│   └── YYYY-MM-DD-phase-N-<name>-plan.yml
+├── handoffs/
+│   └── phase-N-handoff.yml         # 50-100 tokens
 └── implementation-reports/
-    └── YYYY-MM-DD-phase-N-<name>-report.md
+    └── final-report.md               # Generated at end
+
+src/                                   # Your actual code
+tests/                                 # Your tests
 ```
 
-Design and plan documents are in compact YAML format for token efficiency. Implementation reports remain in Markdown for human readability.
+Handoffs are minimal (50-100 tokens) and contain:
+- Components created
+- Key API signatures
+- Architectural patterns used
 
-Plus your implemented and tested code in the appropriate source directories.
+Code is self-documenting. Tests document behavior.
 
 ## How It Works
 
 ### Phase Execution
 
-For each phase in your roadmap:
+For each phase:
 
-#### 1. Autonomous Brainstorming
+1. **Execute Phase**
+   - Think internally (architecture decisions)
+   - Plan internally (task breakdown)
+   - Implement with TDD (test → verify RED → impl → verify GREEN)
+   - Output minimal handoff (50-100 tokens)
 
-- Analyzes phase requirements
-- Evaluates multiple architectural approaches
-- Selects best approach based on:
-  - Simplicity (YAGNI, DRY)
-  - Maintainability
-  - Testability
-  - Developer experience
-- Creates comprehensive design document
+2. **Code Review**
+   - Automated review with superpowers:code-reviewer
+   - Fix issues if found (up to 3 review cycles)
+   - Proceed only when approved
 
-#### 2. Autonomous Planning
-
-- Transforms design into detailed implementation plan
-- Breaks down into bite-sized tasks (2-5 min each)
-- Includes complete code examples
-- Specifies exact file paths
-- Adds TDD steps and verification
-
-#### 3. Autonomous Implementation
-
-- Executes plan task by task
-- Dispatches fresh subagent per task
-- Follows strict TDD: Write test → Verify fail → Implement → Verify pass
-- Enforces quality gates before every commit:
-  - ✅ Code compiles
-  - ✅ Linter passes
-  - ✅ All tests pass
-  - ✅ No regressions
-- Runs integration tests
-- Generates implementation report
+3. **Continue to Next Phase**
+   - Next phase reads minimal handoff
+   - Reads actual code for details
+   - Builds on previous work
 
 ### Quality Gates (Non-Negotiable)
 
@@ -241,44 +230,43 @@ npm test                                # Test
 
 ## Skills Included
 
-The plugin includes four skills:
+The plugin includes two skills:
 
-### 1. Interactive Roadmap Builder
+### 1. Roadmap Builder
 
 - Transforms rough ideas into structured YAML roadmaps
 - Interactive questioning and validation
 - Optimizes roadmaps for autonomous execution
 - Location: `skills/roadmap-builder/SKILL.md`
 
-### 2. Autonomous Brainstorming
+### 2. Autonomous Phase Execution
 
-- Transforms requirements into YAML designs
-- Makes informed architecture decisions
-- Documents design rationale in structured format
-- Location: `skills/autonomous-brainstorming/SKILL.md`
-
-### 3. Autonomous Planning
-
-- Creates detailed YAML implementation plans
-- Breaks down into test/impl pairs
-- Includes complete code examples
-- Location: `skills/autonomous-planning/SKILL.md`
-
-### 4. Autonomous Implementation
-
-- Parses YAML plans and executes with subagents
-- Enforces quality gates strictly
-- Verifies integration thoroughly
-- Location: `skills/autonomous-implementation/SKILL.md`
+- Single unified skill for complete phase execution
+- Internal thinking and planning (ephemeral)
+- TDD implementation with quality gates
+- Outputs minimal handoff documents
+- Location: `skills/autonomous-phase-execution/SKILL.md`
 
 ## Agents Included
 
 ### Autonomous Development Executor
 
-- Orchestrates all three phases
+- Orchestrates phase execution with code review gates
 - Manages sequential phase execution
+- Integrates automated code review after each phase
+- Handles review feedback loops
 - Makes technical decisions autonomously
 - Location: `agents/autonomous-executor.md`
+
+### Code Review Integration
+
+After each phase, automated code review runs (requires superpowers plugin):
+- Reviews all code changes from phase
+- Identifies architecture issues, missing tests, etc.
+- Provides specific feedback
+- Blocks next phase until issues resolved
+
+If superpowers unavailable, review is skipped with warning.
 
 ## Best Practices Enforced
 
@@ -308,28 +296,28 @@ The plugin includes four skills:
 ```
 🎉 Autonomous Development Complete!
 
-Roadmap: docs/plans/self-hosting-roadmap.yml
-Phases completed: 6/6
+Roadmap: docs/roadmaps/calculator-cli-roadmap.yml
+Phases completed: 3/3
 
 Documentation:
-- 6 design documents (YAML) in docs/designs/
-- 6 implementation plans (YAML) in docs/plans/
-- 6 implementation reports (Markdown) in docs/implementation-reports/
+- 3 handoff documents (YAML) in docs/handoffs/ (~250 tokens total)
+- 1 final report (Markdown) in docs/implementation-reports/
 
 Code changes:
-- 47 commits
-- 23 files created/modified
-- 152 tests added (all passing)
+- 12 commits
+- 8 files created/modified
+- 45 tests added (all passing)
 
 Quality metrics:
 - ✅ All code compiles
 - ✅ Zero linter issues
 - ✅ All tests passing
 - ✅ No regressions
-- ✅ Complete documentation
+- ✅ All phases code reviewed
 
 Token efficiency:
-- ~67% reduction vs markdown format
+- ~90% reduction vs v1.0.0
+- ~97% reduction in per-phase documentation
 - Faster processing
 - Lower API costs
 
@@ -429,12 +417,12 @@ autonomous-dev-flow/
 ├── agents/
 │   └── autonomous-executor.md   # Main orchestration agent
 ├── skills/
-│   ├── autonomous-brainstorming/
+│   ├── roadmap-builder/
 │   │   └── SKILL.md
-│   ├── autonomous-planning/
-│   │   └── SKILL.md
-│   └── autonomous-implementation/
+│   └── autonomous-phase-execution/
 │       └── SKILL.md
+├── templates/
+│   └── roadmap-template.yml     # Roadmap template
 └── README.md                    # This file
 ```
 
@@ -455,11 +443,11 @@ Test the plugin with a simple YAML roadmap:
 ```bash
 # Create test roadmap
 cat > test-roadmap.yml << 'EOF'
-project:
+proj:
   name: "Test Feature"
-  language: "Python"
-  testing: "pytest"
-  linting: "ruff"
+  lang: "Python"
+  test: "pytest tests/ -v"
+  lint: "ruff check ."
   goal: "Simple hello function"
 
 phases:
@@ -476,9 +464,8 @@ EOF
 /autonomous-dev test-roadmap.yml
 
 # Verify output
-ls -la docs/designs/     # .yml files
-ls -la docs/plans/       # .yml files
-ls -la docs/implementation-reports/  # .md files
+ls -la docs/handoffs/               # Minimal .yml files (~100 tokens each)
+ls -la docs/implementation-reports/ # Final .md report
 ```
 
 ## License
@@ -491,7 +478,7 @@ Yaroslav K
 
 ## Version
 
-1.0.0
+3.0.0
 
 ## Keywords
 

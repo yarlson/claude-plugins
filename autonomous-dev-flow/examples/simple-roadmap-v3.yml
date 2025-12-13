@@ -1,0 +1,40 @@
+# Simple Example: Calculator CLI
+# This example shows a minimal 3-phase roadmap
+
+proj:
+  name: "Calculator CLI"
+  lang: "Python"
+  test: "pytest tests/ -v"
+  lint: "ruff check ."
+  goal: "Build a command-line calculator with expression parsing"
+
+phases:
+  - id: 0
+    name: "Calculator Core"
+    goal: "Create Calculator class with basic operations"
+    success:
+      - "Calculator.add() works correctly"
+      - "Calculator.subtract() works correctly"
+      - "Calculator.multiply() works correctly"
+      - "Calculator.divide() handles zero division"
+      - "All tests pass"
+
+  - id: 1
+    name: "Expression Parser"
+    goal: "Parse mathematical expressions into operations"
+    success:
+      - "Parser handles basic operations (+ - * /)"
+      - "Parser handles parentheses correctly"
+      - "Parser handles operator precedence"
+      - "Integration with Calculator works"
+      - "All tests pass"
+
+  - id: 2
+    name: "CLI Interface"
+    goal: "Create command-line interface using Calculator and Parser"
+    success:
+      - "CLI accepts expression as argument"
+      - "CLI prints result to stdout"
+      - "CLI handles errors gracefully"
+      - "CLI has --help option"
+      - "All tests pass"

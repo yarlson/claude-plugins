@@ -5,6 +5,109 @@ All notable changes to the Autonomous Development Flow plugin will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2025-12-13
+
+### Breaking Changes
+
+**Major architectural overhaul for 90% token reduction.**
+
+#### Removed
+- ❌ `skills/autonomous-brainstorming/` - Deleted
+- ❌ `skills/autonomous-planning/` - Deleted
+- ❌ `skills/autonomous-implementation/` - Deleted
+- ❌ Design document generation (`.yml` in `docs/designs/`)
+- ❌ Plan document generation (`.yml` in `docs/plans/`)
+
+#### Added
+- ✅ `skills/autonomous-phase-execution/` - Unified skill (replaces 3 skills)
+- ✅ Minimal handoff documents (`.yml` in `docs/handoffs/`) - 50-100 tokens each
+- ✅ Code review integration after each phase (superpowers:code-reviewer)
+- ✅ Enhanced commit message requirements (context in commits)
+
+#### Changed
+- 🔄 Roadmap schema: `project:` → `proj:` (minor change, backward compatible)
+- 🔄 Main executor agent: Added code review dispatch logic
+- 🔄 Roadmap builder skill: Simplified, more concise
+
+### Migration Guide
+
+**For existing roadmaps:**
+
+Minor schema change only:
+```yaml
+# v1.0.0
+project:
+  name: "X"
+  language: "Y"
+  ...
+
+# v3.0.0
+proj:
+  name: "X"
+  lang: "Y"
+  ...
+```
+
+Old design/plan documents are not used in v3.0.0 (ephemeral execution).
+
+**For new roadmaps:**
+
+Use `/build-roadmap` or copy `templates/roadmap-template.yml`.
+
+### Performance Improvements
+
+- **90% token reduction** (31K → 3.1K tokens for 6-phase roadmap)
+- **97.5% reduction** in per-phase documentation (4,000 → 100 tokens)
+- **72.6% reduction** in skill instruction tokens (6,200 → 1,700 tokens)
+- Faster execution (less writing/reading of documents)
+- Lower API costs (10x reduction)
+
+### Architecture Changes
+
+**Ephemeral execution model:**
+- Design thinking happens internally (not saved)
+- Planning happens internally (not saved)
+- Implementation produces code + minimal handoff
+- Next phase reads code directly (self-documenting)
+
+**Code review gates:**
+- Automated review after each phase
+- Requires superpowers plugin (optional)
+- Fix loop with up to 3 review cycles
+- Graceful fallback if unavailable
+
+### What This Means
+
+**Generated artifacts:**
+
+v1.0.0:
+```
+docs/designs/      # 1,500 tokens each
+docs/plans/        # 2,500 tokens each
+```
+
+v3.0.0:
+```
+docs/handoffs/     # 50-100 tokens each
+```
+
+**Code is documentation:**
+- Read actual code files for implementation details
+- Tests document expected behavior
+- Commit messages capture design rationale
+- Handoffs provide high-level architecture hints
+
+### Dependencies
+
+- Optional: superpowers plugin for code review integration
+- No other dependency changes
+
+### Notes
+
+This release focuses on token efficiency while maintaining quality gates and autonomous execution. The ephemeral execution model eliminates verbose intermediate documents, achieving 90% token reduction.
+
+---
+
 ## [1.0.1] - 2025-11-19
 
 ### Changed
